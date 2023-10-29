@@ -27,6 +27,8 @@ type ParamStru struct {
 }
 
 type MQPushActorIm struct {
+	//todo your module ojb values
+	//moduleObj    interface{}
 	heartTickerSend *time.Ticker //用于心跳send
 	param           *ParamStru
 	nChanLen        int //接收数据网络缓存
@@ -70,7 +72,7 @@ func (actor *MQPushActorIm) run() {
 				continue
 			}
 			data := recvData.(*common.TWSData)
-			_ = actor.doRecvPro(data)
+			_ = actor.doRecvPro(data) //todo add your module logic
 		case <-actor.heartTicker.C:
 			if actor.heartFlag == true {
 				actor.heartFlag = false
