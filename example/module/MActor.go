@@ -61,6 +61,7 @@ func (actor *MActorIm) run() {
 			actor.sendResp(&ResponseSt{Type: "heart"})
 		case <-actor.closeChan:
 			log.Info("收到退出信号", "sessionId", actor.SessionId)
+			actor.mJsCore.Destroy()
 			return
 		case recvData := <-actor.ReceivMsgChan:
 			if actor.isclosing == true {
@@ -70,6 +71,10 @@ func (actor *MActorIm) run() {
 			_ = actor.doRecvPro(data) //todo add your module logic
 		case jscoredata := <-actor.mJsCore.RecvMsg():
 			actor.sendResp(&ResponseSt{Cmd: jscoredata.(string)}) //todo
+			if jscoredata == "exit" {
+				actor.isclosing = true
+				actor.a.Destroy()
+			}
 		case <-actor.heartTicker.C:
 			if actor.heartFlag == true {
 				actor.heartFlag = false
@@ -106,7 +111,7 @@ func (actor *MActorIm) doRecvPro(data *common.TWSData) error {
 		}
 		if req.Cmd == HEART_CMD {
 			actor.heartFlag = true
-		} else if req.Cmd == SUB_CMD {
+		} else if req.Cmd == SUB_CMD { // loginc data
 			log.Info("收到sub命令", "req", req, "sessionId", actor.SessionId)
 			actor.mJsCore.SendMsg(nil) //todo
 			res := &ResponseSt{Type: RESP_OP_TYPE, Cmd: SUB_CMD, Topic: req.Topic, RequestId: req.RequestId, Success: true,

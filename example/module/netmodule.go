@@ -85,8 +85,7 @@ func checkToken(data *common.TAgentUserData) (*ParamStru, error) {
 		log.Error("获取token为空", "sessionId", data.SessionID)
 		return nil, errors.New("获取token为空")
 	}
-	//todo 这里添加你的token效验逻辑验证token的合法性
-	//ret.OrgId=""
+	//todo  这里添加你的token效验逻辑验证token的合法性
 	//ret.UserId=""
 	ret.Token = token
 	return ret, nil
