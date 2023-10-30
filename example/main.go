@@ -27,7 +27,7 @@ func Initsever() *GateNet {
 		MaxConnNum:      100,
 		PendingWriteNum: 200,
 		MaxMsgLen:       20000,
-		WSAddr:          ":80", // change your ip_port
+		WSAddr:          ":80", // todo change your ip_port
 		HTTPTimeout:     10 * time.Second,
 		CertFile:        "",
 		KeyFile:         "",

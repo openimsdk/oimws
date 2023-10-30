@@ -9,7 +9,7 @@ import (
 	"net/url"
 )
 
-type MQPushActor interface {
+type MActor interface {
 	//recv消息
 	ProcessRecvMsg(interface{}) error
 	//关闭循环，并释放资源
@@ -31,7 +31,7 @@ func NewAgent(a gate.Agent) {
 		a.Close()
 		return
 	}
-	actor, err := NewMQActor(a, param.SessionId, param)
+	actor, err := NewMActor(a, param.SessionId, param)
 	if err != nil {
 		log.Error("NewMQActor error", "err", err, "sessionId", aUerData.SessionID)
 		res := &ResponseSt{Type: RESP_OP_TYPE, Cmd: CONN_CMD, Success: false, ErrMsg: "NewMQActor error"}
@@ -49,7 +49,7 @@ func NewAgent(a gate.Agent) {
 func CloseAgent(a gate.Agent) {
 	aUerData := a.UserData().(*common.TAgentUserData)
 	if aUerData.ProxyBody != nil {
-		aUerData.ProxyBody.(MQPushActor).Destroy()
+		aUerData.ProxyBody.(MActor).Destroy()
 		aUerData.ProxyBody = nil
 	}
 	log.Info("one dislinkder", "sessionId", a.UserData().(*common.TAgentUserData).SessionID)
@@ -57,7 +57,7 @@ func CloseAgent(a gate.Agent) {
 func DataRecv(data interface{}, a gate.Agent) {
 	aUerData := a.UserData().(*common.TAgentUserData)
 	if aUerData.ProxyBody != nil {
-		err := aUerData.ProxyBody.(MQPushActor).ProcessRecvMsg(data)
+		err := aUerData.ProxyBody.(MActor).ProcessRecvMsg(data)
 		if err != nil {
 			log.Error("溢出错误", "sessionId", aUerData.SessionID)
 			a.Destroy()

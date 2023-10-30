@@ -11,12 +11,6 @@ import (
 	log "github.com/xuexihuang/new_log15"
 )
 
-const (
-	EVENT_SUB_CHAN_LENGTH = 50
-	EVENT_STREAM_NAME     = "aistudio-web-push"
-	EVENT_SUB_TIMEOUT     = 5 //5 Millisecond
-)
-
 type ParamStru struct {
 	Token     string
 	SessionId string
@@ -26,9 +20,9 @@ type ParamStru struct {
 	OrgName   string
 }
 
-type MQPushActorIm struct {
+type MActorIm struct {
 	//todo your module ojb values
-	//moduleObj    interface{}
+	mJsCore         *JsCore
 	heartTickerSend *time.Ticker //用于心跳send
 	param           *ParamStru
 	nChanLen        int //接收数据网络缓存
@@ -42,10 +36,11 @@ type MQPushActorIm struct {
 	isclosing       bool
 }
 
-func NewMQActor(a gate.Agent, sessionId string, appParam *ParamStru) (MQPushActor, error) {
-	ret := &MQPushActorIm{param: appParam, a: a, SessionId: sessionId, closeChan: make(chan bool, 1), nChanLen: 10, ReceivMsgChan: make(chan interface{}, 10), isclosing: false,
+func NewMActor(a gate.Agent, sessionId string, appParam *ParamStru) (MActor, error) {
+	ret := &MActorIm{param: appParam, a: a, SessionId: sessionId, closeChan: make(chan bool, 1), nChanLen: 10, ReceivMsgChan: make(chan interface{}, 10), isclosing: false,
 		heartTicker: time.NewTicker(15 * time.Second), heartFlag: false, heartTickerSend: time.NewTicker(5 * time.Second)}
 	///////////////////////////////////////
+	ret.mJsCore = NewJsCore() //todo
 	res := &ResponseSt{Type: HEART_CONFIG_TYPE, Success: true, Rate: 5}
 	ret.sendResp(res)
 	///////////////////////////////////////
@@ -53,7 +48,7 @@ func NewMQActor(a gate.Agent, sessionId string, appParam *ParamStru) (MQPushActo
 	return ret, nil
 }
 
-func (actor *MQPushActorIm) run() {
+func (actor *MActorIm) run() {
 	actor.wg.Add(1)
 	defer common.TryRecoverAndDebugPrint()
 	defer actor.wg.Done()
@@ -73,6 +68,8 @@ func (actor *MQPushActorIm) run() {
 			}
 			data := recvData.(*common.TWSData)
 			_ = actor.doRecvPro(data) //todo add your module logic
+		case jscoredata := <-actor.mJsCore.RecvMsg():
+			actor.sendResp(&ResponseSt{Cmd: jscoredata.(string)}) //todo
 		case <-actor.heartTicker.C:
 			if actor.heartFlag == true {
 				actor.heartFlag = false
@@ -84,13 +81,13 @@ func (actor *MQPushActorIm) run() {
 		}
 	}
 }
-func (actor *MQPushActorIm) Destroy() {
+func (actor *MActorIm) Destroy() {
 	actor.closeChan <- true
 	actor.wg.Wait()
 	actor.a = nil
 	log.Info("退出MQPushActorIm", "sessionId", actor.SessionId)
 }
-func (actor *MQPushActorIm) ProcessRecvMsg(msg interface{}) error {
+func (actor *MActorIm) ProcessRecvMsg(msg interface{}) error {
 	if len(actor.ReceivMsgChan) == actor.nChanLen {
 		log.Error("send channel is full", "sessionId", actor.SessionId)
 		return errors.New("send channel is full")
@@ -99,7 +96,7 @@ func (actor *MQPushActorIm) ProcessRecvMsg(msg interface{}) error {
 	return nil
 }
 
-func (actor *MQPushActorIm) doRecvPro(data *common.TWSData) error {
+func (actor *MActorIm) doRecvPro(data *common.TWSData) error {
 	if data.MsgType == common.TextMsg {
 		req := &RequestSt{}
 		err := json.Unmarshal(data.Msg, req)
@@ -109,8 +106,9 @@ func (actor *MQPushActorIm) doRecvPro(data *common.TWSData) error {
 		}
 		if req.Cmd == HEART_CMD {
 			actor.heartFlag = true
-		} else if req.Cmd == SUB_CMD && req.Topic != "" {
+		} else if req.Cmd == SUB_CMD {
 			log.Info("收到sub命令", "req", req, "sessionId", actor.SessionId)
+			actor.mJsCore.SendMsg(nil) //todo
 			res := &ResponseSt{Type: RESP_OP_TYPE, Cmd: SUB_CMD, Topic: req.Topic, RequestId: req.RequestId, Success: true,
 				MsgSeqId: req.MsgSeqId, MsgTimeStamp: req.MsgTimeStamp}
 			actor.sendResp(res)
@@ -122,7 +120,7 @@ func (actor *MQPushActorIm) doRecvPro(data *common.TWSData) error {
 	return nil
 }
 
-func (actor *MQPushActorIm) sendResp(res *ResponseSt) {
+func (actor *MActorIm) sendResp(res *ResponseSt) {
 	resb, _ := json.Marshal(res)
 	resSend := &common.TWSData{MsgType: common.TextMsg, Msg: resb}
 	actor.a.WriteMsg(resSend)
