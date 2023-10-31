@@ -156,7 +156,82 @@ func (a AdvancedMsgCallback) OnMsgDeleted(message string) {
 
 type BaseCallback struct {
 	respMessage *RespMessage
+}d
+
+type BatchMessageCallback struct {
+	respMessage *RespMessage
 }
+
+// NewBatchMessageCallback creates a new instance of BatchMessageCallback.
+func NewBatchMessageCallback(respMessage *RespMessage) *BatchMessageCallback {
+	return &BatchMessageCallback{respMessage: respMessage}
+}
+
+// OnRecvNewMessages is called when new messages are received.
+func (b *BatchMessageCallback) OnRecvNewMessages(messageList string) {
+	b.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), messageList)
+}
+
+// OnRecvOfflineNewMessages is called when new offline messages are received.
+func (b *BatchMessageCallback) OnRecvOfflineNewMessages(messageList string) {
+	b.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), messageList)
+}
+
+
+type FriendCallback struct {
+	respMessage *RespMessage
+}
+
+// NewFriendCallback creates a new instance of FriendCallback.
+func NewFriendCallback(respMessage *RespMessage) *FriendCallback {
+	return &FriendCallback{respMessage: respMessage}
+}
+
+// OnFriendApplicationAdded notifies when a friend application is added.
+func (f *FriendCallback) OnFriendApplicationAdded(friendApplication string) {
+	f.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), friendApplication)
+}
+
+// OnFriendApplicationDeleted notifies when a friend application is deleted.
+func (f *FriendCallback) OnFriendApplicationDeleted(friendApplication string) {
+	f.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), friendApplication)
+}
+
+// OnFriendApplicationAccepted notifies when a friend application is accepted.
+func (f *FriendCallback) OnFriendApplicationAccepted(friendApplication string) {
+	f.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), friendApplication)
+}
+
+// OnFriendApplicationRejected notifies when a friend application is rejected.
+func (f *FriendCallback) OnFriendApplicationRejected(friendApplication string) {
+	f.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), friendApplication)
+}
+
+// OnFriendAdded notifies when a new friend is added.
+func (f *FriendCallback) OnFriendAdded(friendInfo string) {
+	f.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), friendInfo)
+}
+
+// OnFriendDeleted notifies when a friend is deleted.
+func (f *FriendCallback) OnFriendDeleted(friendInfo string) {
+	f.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), friendInfo)
+}
+
+// OnFriendInfoChanged notifies when friend information is changed.
+func (f *FriendCallback) OnFriendInfoChanged(friendInfo string) {
+	f.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), friendInfo)
+}
+
+// OnBlackAdded notifies when a black list entry is added.
+func (f *FriendCallback) OnBlackAdded(blackInfo string) {
+	f.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), blackInfo)
+}
+
+// OnBlackDeleted notifies when a black list entry is deleted.
+func (f *FriendCallback) OnBlackDeleted(blackInfo string) {
+	f.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), blackInfo)
+}
+
 
 type GroupCallback struct {
 	respMessage *RespMessage
