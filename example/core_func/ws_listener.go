@@ -44,7 +44,8 @@ func (c ConnCallback) OnUserTokenExpired() {
 	c.respMessage.sendEventSuccessRespNoData(getSelfFuncName())
 }
 
-// 获取自身函数名称
+// getSelfFuncName gets the name of the caller function.
+// This would need to be implemented or replaced with appropriate functionality.
 func getSelfFuncName() string {
 	pc, _, _, _ := runtime.Caller(1)
 	end := strings.LastIndex(runtime.FuncForPC(pc).Name(), ".")
@@ -155,4 +156,162 @@ func (a AdvancedMsgCallback) OnMsgDeleted(message string) {
 
 type BaseCallback struct {
 	respMessage *RespMessage
+}
+
+type GroupCallback struct {
+	respMessage *RespMessage
+}
+
+// NewGroupCallback creates a new instance of GroupCallback.
+func NewGroupCallback(respMessage *RespMessage) *GroupCallback {
+	return &GroupCallback{respMessage: respMessage}
+}
+
+// OnJoinedGroupAdded notifies the client that a group has been joined.
+func (g *GroupCallback) OnJoinedGroupAdded(groupInfo string) {
+	g.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), groupInfo)
+}
+
+// OnJoinedGroupDeleted notifies the client that a joined group has been deleted.
+func (g *GroupCallback) OnJoinedGroupDeleted(groupInfo string) {
+	g.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), groupInfo)
+}
+
+// OnGroupMemberAdded notifies the client that a new member has been added to a group.
+func (g *GroupCallback) OnGroupMemberAdded(groupMemberInfo string) {
+	g.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), groupMemberInfo)
+}
+
+// OnGroupMemberDeleted notifies the client that a member has been removed from a group.
+func (g *GroupCallback) OnGroupMemberDeleted(groupMemberInfo string) {
+	g.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), groupMemberInfo)
+}
+
+// OnGroupApplicationAdded notifies the client that a group application has been received.
+func (g *GroupCallback) OnGroupApplicationAdded(groupApplication string) {
+	g.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), groupApplication)
+}
+
+// OnGroupApplicationDeleted notifies the client that a group application has been deleted.
+func (g *GroupCallback) OnGroupApplicationDeleted(groupApplication string) {
+	g.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), groupApplication)
+}
+
+// OnGroupInfoChanged notifies the client that group information has changed.
+func (g *GroupCallback) OnGroupInfoChanged(groupInfo string) {
+	g.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), groupInfo)
+}
+
+// OnGroupMemberInfoChanged notifies the client that group member information has changed.
+func (g *GroupCallback) OnGroupMemberInfoChanged(groupMemberInfo string) {
+	g.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), groupMemberInfo)
+}
+
+// OnGroupApplicationAccepted notifies the client that a group application has been accepted.
+func (g *GroupCallback) OnGroupApplicationAccepted(groupApplication string) {
+	g.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), groupApplication)
+}
+
+// OnGroupApplicationRejected notifies the client that a group application has been rejected.
+func (g *GroupCallback) OnGroupApplicationRejected(groupApplication string) {
+	g.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), groupApplication)
+}
+
+// OnGroupDismissed notifies the client that a group has been dismissed.
+func (g *GroupCallback) OnGroupDismissed(groupInfo string) {
+	g.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), groupInfo)
+}
+
+
+// UserCallback represents a callback handler for user-related events.
+type UserCallback struct {
+	respMessage *RespMessage
+}
+
+// NewUserCallback creates a new UserCallback handler.
+func NewUserCallback(respMessage *RespMessage) *UserCallback {
+	return &UserCallback{respMessage: respMessage}
+}
+
+// OnUserStatusChanged is triggered when there is a change in the user status.
+func (u *UserCallback) OnUserStatusChanged(statusMap string) {
+	u.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), statusMap)
+}
+
+// OnSelfInfoUpdated is triggered when the user's own information is updated.
+func (u *UserCallback) OnSelfInfoUpdated(userInfo string) {
+	u.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), userInfo)
+}
+
+type CustomBusinessCallback struct {
+	respMessage *RespMessage
+}
+
+// NewCustomBusinessCallback creates a new instance of CustomBusinessCallback with the provided RespMessage.
+func NewCustomBusinessCallback(respMessage *RespMessage) *CustomBusinessCallback {
+	return &CustomBusinessCallback{respMessage: respMessage}
+}
+
+// OnRecvCustomBusinessMessage is called when a custom business message is received.
+func (cb *CustomBusinessCallback) OnRecvCustomBusinessMessage(businessMessage string) {
+	cb.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), businessMessage)
+}
+
+type SignalingCallback struct {
+	respMessage *RespMessage
+}
+
+// NewSignalingCallback creates a new instance of SignalingCallback with the provided RespMessage.
+func NewSignalingCallback(respMessage *RespMessage) *SignalingCallback {
+	return &SignalingCallback{respMessage: respMessage}
+}
+
+// OnRoomParticipantConnected is called when a room participant successfully connects.
+func (sc *SignalingCallback) OnRoomParticipantConnected(participantConnectedData string) {
+	sc.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), participantConnectedData)
+}
+
+// OnRoomParticipantDisconnected is called when a room participant gets disconnected.
+func (sc *SignalingCallback) OnRoomParticipantDisconnected(participantDisconnectedData string) {
+	sc.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), participantDisconnectedData)
+}
+
+// OnReceiveNewInvitation is called when a new invitation is received.
+func (sc *SignalingCallback) OnReceiveNewInvitation(newInvitationData string) {
+	sc.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), newInvitationData)
+}
+
+// OnInviteeAccepted is called when an invitee accepts an invitation.
+func (sc *SignalingCallback) OnInviteeAccepted(acceptedData string) {
+	sc.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), acceptedData)
+}
+
+// OnInviteeAcceptedByOtherDevice is called when an invitee accepts an invitation from another device.
+func (sc *SignalingCallback) OnInviteeAcceptedByOtherDevice(acceptedData string) {
+	sc.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), acceptedData)
+}
+
+// OnInviteeRejected is called when an invitee rejects an invitation.
+func (sc *SignalingCallback) OnInviteeRejected(rejectedData string) {
+	sc.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), rejectedData)
+}
+
+// OnInviteeRejectedByOtherDevice is called when an invitee rejects an invitation from another device.
+func (sc *SignalingCallback) OnInviteeRejectedByOtherDevice(rejectedData string) {
+	sc.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), rejectedData)
+}
+
+// OnInvitationCancelled is called when an invitation is cancelled.
+func (sc *SignalingCallback) OnInvitationCancelled(cancelledData string) {
+	sc.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), cancelledData)
+}
+
+// OnInvitationTimeout is called when an invitation times out.
+func (sc *SignalingCallback) OnInvitationTimeout(timeoutData string) {
+	sc.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), timeoutData)
+}
+
+// OnHangUp is called when a hang-up event occurs.
+func (sc *SignalingCallback) OnHangUp(hangUpData string) {
+	sc.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), hangUpData)
 }

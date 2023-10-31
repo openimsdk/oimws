@@ -49,29 +49,35 @@ func (r *RespMessage) sendOnErrorResp(operationID string, err error) {
 	r.respMessagesChan <- resp
 }
 
+func (r *RespMessage) sendEventFailedREspNoErr(event string) {
+	r.respMessagesChan <- &EventData{
+		Event: event,
+	}
+}
+
+
+// sendEventSuccessRespWithData sends a successful event response with associated data.
+func (r *RespMessage) sendEventSuccessRespWithData(event string, data string) {
+	r.respMessagesChan <- &EventData{
+		Event: event,
+		Data:  data, 
+	}
+}
+
+// sendEventSuccessRespNoData sends a successful event response without any associated data.
+// This is included for completeness but not used in the above callback methods.
 func (r *RespMessage) sendEventSuccessRespNoData(event string) {
 	r.respMessagesChan <- &EventData{
 		Event: event,
 	}
 }
 
-func (r *RespMessage) sendEventSuccessRespWithData(event string, data string) {
-	r.respMessagesChan <- &EventData{
-		Event: event,
-		Data:  data,
-	}
-}
-
+// sendEventFailedRespNoData sends a failed event response with error code and message, without any associated data.
+// This function may be used if there are any future error handling requirements in the SignalingCallback.
 func (r *RespMessage) sendEventFailedRespNoData(event string, errCode int32, errMsg string) {
 	r.respMessagesChan <- &EventData{
 		Event:   event,
 		ErrCode: errCode,
 		ErrMsg:  errMsg,
-	}
-}
-
-func (r *RespMessage) sendEventFailedREspNoErr(event string) {
-	r.respMessagesChan <- &EventData{
-		Event: event,
 	}
 }
