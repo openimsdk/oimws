@@ -105,7 +105,7 @@ func (actor *MActorIm) ProcessRecvMsg(msg interface{}) error {
 }
 
 func (actor *MActorIm) doRecvPro(data *common.TWSData) error {
-	if data.MsgType == common.TextMsg {
+	if data.MsgType == common.BinaryMsg {
 		req := &RequestSt{}
 		err := json.Unmarshal(data.Msg, req)
 		if err != nil {
@@ -130,6 +130,6 @@ func (actor *MActorIm) doRecvPro(data *common.TWSData) error {
 
 func (actor *MActorIm) sendResp(res *ResponseSt) {
 	resb, _ := json.Marshal(res)
-	resSend := &common.TWSData{MsgType: common.TextMsg, Msg: resb}
+	resSend := &common.TWSData{MsgType: common.BinaryMsg, Msg: resb}
 	actor.a.WriteMsg(resSend)
 }
