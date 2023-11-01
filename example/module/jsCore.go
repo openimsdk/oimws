@@ -1,9 +1,27 @@
 package module
 
+import (
+	"context"
+	"encoding/json"
+	"errors"
+	"fmt"
+	"github.com/OpenIMSDK/tools/log"
+	"github.com/openimsdk/openim-sdk-core/v3/pkg/sdkerrs"
+	"github.com/xuexihuang/new_gonet/example/core_func"
+	"reflect"
+)
+
 type JsCore struct {
 	closeChan       chan bool
 	ReceivMsgChan   chan interface{}
 	OutMsgChan      chan interface{}
+	respMessagesChan chan *core_func.EventData
+	funcRouter      *core_func.FuncRouter
+}
+type Req struct {
+	ReqFuncName string `json:"reqFuncName" `
+	OperationID string `json:"operationID"`
+	Data        string `json:"data"`
 }
 
 type JsInterface interface {
@@ -16,16 +34,31 @@ type JsInterface interface {
 }
 
 func NewJsCore() *JsCore {
-	return nil
+	return &JsCore{funcRouter: core_func.NewFuncRouter()}
 }
 func (core *JsCore) RecvMsg() chan interface{} {
 
 	return core.OutMsgChan
 }
 
-func (core *JsCore) SendMsg(data interface{}) error {
-
-	core.ReceivMsgChan<-data
+func (core *JsCore) SendMsg(req *Req) error {
+	methodValue := reflect.ValueOf(core.funcRouter).MethodByName(req.ReqFuncName)
+	if !methodValue.IsValid() {
+		log.ZWarn(context.Background(),"method is valid",errors.New("method is valid"),
+			"data",req)
+		//todo return err info with operationID
+	}
+	var args []any
+	if err := json.Unmarshal([]byte(req.Data), &args); err != nil {
+		//todo todo return err info with operationID
+	}
+	// Convert args to []reflect.Value
+	argsValue := make([]reflect.Value, len(args))
+	for i, arg := range args {
+		argsValue[i] = reflect.ValueOf(arg)
+	}
+	methodValue.Call(argsValue)
+	//core.ReceivMsgChan<-req
 	return nil
 }
 func (core *JsCore) Destroy() {
