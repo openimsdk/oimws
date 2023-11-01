@@ -6,7 +6,7 @@ import (
 	"runtime/debug"
 )
 
-// 用来捕获panic并且打印堆栈信息的方法
+// Method used to capture panic and print stack information
 func TryRecoverAndDebugPrint() {
 	errs := recover()
 	if errs == nil {

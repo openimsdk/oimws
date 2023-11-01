@@ -1,9 +1,9 @@
 # OpenIMProtocolFramework
 
-![Build Status](https://github.com/olahol/melody/actions/workflows/test.yml/badge.svg)
-[![Codecov](https://img.shields.io/codecov/c/github/olahol/melody)](https://app.codecov.io/github/olahol/melody)
-[![Go Report Card](https://goreportcard.com/badge/github.com/olahol/melody)](https://goreportcard.com/report/github.com/olahol/melody)
-[![GoDoc](https://godoc.org/github.com/olahol/melody?status.svg)](https://godoc.org/github.com/olahol/melody)
+![Build Status](https://github.com/openim-sigs/oimws/actions/workflows/test.yml/badge.svg)
+[![Codecov](https://img.shields.io/codecov/c/github/openim-sigs/oimws)](https://app.codecov.io/github/openim-sigs/oimws)
+[![Go Report Card](https://goreportcard.com/badge/github.com/openim-sigs/oimws)](https://goreportcard.com/report/github.com/openim-sigs/oimws)
+[![GoDoc](https://godoc.org/github.com/openim-sigs/oimws?status.svg)](https://godoc.org/github.com/openim-sigs/oimws)
 
 > :notes: Minimalist websocket framework for Go.
 
@@ -20,10 +20,10 @@ your way so you can write real-time apps. Features include:
 ## Install
 
 ```bash
-go get github.com/olahol/melody
+go get github.com/openim-sigs/oimws
 ```
 
-## [Example: chat](https://github.com/olahol/melody/tree/master/examples/chat)
+## [Example: chat](https://github.com/openim-sigs/oimws/tree/master/examples/chat)
 
 An encapsulated framework within `jssdk` connecting to `openim-sdk-core`, providing streamlined management and integration of WebSocket, TCP, and HTTP protocols in the OpenIM ecosystem.
 
@@ -41,8 +41,8 @@ An encapsulated framework within `jssdk` connecting to `openim-sdk-core`, provid
 Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/your-username/oimws.git
-cd OpenIMProtocolFramework
+git clone https://github.com/openim-sigs/oimws.git
+cd oimws
 ```
 
 
@@ -54,7 +54,7 @@ Import the necessary modules and initialize the protocol framework:
 go
 ```
 
-### [More examples](https://github.com/olahol/melody/tree/master/examples)
+### [More examples](https://github.com/openim-sigs/oimws/tree/master/examples)
 
 
 
@@ -62,8 +62,8 @@ go
 
 Feel free to contribute to this project by opening issues or submitting pull requests.
 
-<a href="https://github.com/olahol/melody/graphs/contributors">
-	<img src="https://contrib.rocks/image?repo=olahol/melody" />
+<a href="https://github.com/openim-sigs/oimws/graphs/contributors">
+	<img src="https://contrib.rocks/image?repo=openim-sigs/oimws" />
 </a>
 
 ## License
