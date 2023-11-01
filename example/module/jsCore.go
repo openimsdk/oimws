@@ -1,22 +1,15 @@
 package module
 
 import (
-	"context"
 	"encoding/json"
-	"errors"
 	"fmt"
-	"github.com/OpenIMSDK/tools/log"
-	"github.com/openimsdk/openim-sdk-core/v3/pkg/sdkerrs"
 	"github.com/xuexihuang/new_gonet/example/core_func"
 	"reflect"
 )
 
 type JsCore struct {
-	closeChan       chan bool
-	ReceivMsgChan   chan interface{}
-	OutMsgChan      chan interface{}
-	respMessagesChan chan *core_func.EventData
-	funcRouter      *core_func.FuncRouter
+	RespMessagesChan chan *core_func.EventData
+	funcRouter       *core_func.FuncRouter
 }
 type Req struct {
 	ReqFuncName string `json:"reqFuncName" `
@@ -32,20 +25,28 @@ type JsInterface interface {
 	//关闭循环，并释放资源
 	Destroy()
 }
-
-func NewJsCore() *JsCore {
-	return &JsCore{funcRouter: core_func.NewFuncRouter()}
+type jsParam struct {
+	userId       string
+	token        string
+	platformID   string
+	operationID  string
+	isBackground bool
 }
-func (core *JsCore) RecvMsg() chan interface{} {
 
-	return core.OutMsgChan
+func NewJsCore(para *ParamStru) *JsCore {
+	respChan := make(chan *core_func.EventData)
+	return &JsCore{RespMessagesChan: respChan, funcRouter: core_func.NewFuncRouter(respChan)}
+}
+func (core *JsCore) RecvMsg() chan *core_func.EventData {
+
+	return core.RespMessagesChan
 }
 
 func (core *JsCore) SendMsg(req *Req) error {
 	methodValue := reflect.ValueOf(core.funcRouter).MethodByName(req.ReqFuncName)
 	if !methodValue.IsValid() {
-		log.ZWarn(context.Background(),"method is valid",errors.New("method is valid"),
-			"data",req)
+		//log.ZWarn(context.Background(), "method is valid", errors.New("method is valid"), "data", req)
+		fmt.Println("method is valid", "data=", req)
 		//todo return err info with operationID
 	}
 	var args []any
@@ -63,18 +64,5 @@ func (core *JsCore) SendMsg(req *Req) error {
 }
 func (core *JsCore) Destroy() {
 
-	core.closeChan<-true
-}
-
-func (core *JsCore) run() {
-	for  {
-		select {
-		case <-core.closeChan:
-			return
-		case indata:=<-core.ReceivMsgChan
-		//todo your logic
-		case <sdk.out
-		}
-	}
-
+	// destroy funcRouter
 }

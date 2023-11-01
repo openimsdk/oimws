@@ -12,6 +12,7 @@ import (
 )
 
 type ParamStru struct {
+	UrlPath   string
 	Token     string
 	SessionId string
 	UserId    int64
@@ -40,7 +41,7 @@ func NewMActor(a gate.Agent, sessionId string, appParam *ParamStru) (MActor, err
 	ret := &MActorIm{param: appParam, a: a, SessionId: sessionId, closeChan: make(chan bool, 1), nChanLen: 10, ReceivMsgChan: make(chan interface{}, 10), isclosing: false,
 		heartTicker: time.NewTicker(15 * time.Second), heartFlag: false, heartTickerSend: time.NewTicker(5 * time.Second)}
 	///////////////////////////////////////
-	ret.mJsCore = NewJsCore() //todo
+	ret.mJsCore = NewJsCore(appParam) //todo
 	res := &ResponseSt{Type: HEART_CONFIG_TYPE, Success: true, Rate: 5}
 	ret.sendResp(res)
 	///////////////////////////////////////
@@ -70,10 +71,12 @@ func (actor *MActorIm) run() {
 			data := recvData.(*common.TWSData)
 			_ = actor.doRecvPro(data) //todo add your module logic
 		case jscoredata := <-actor.mJsCore.RecvMsg():
-			actor.sendResp(&ResponseSt{Cmd: jscoredata.(string)}) //todo
-			if jscoredata == "exit" {
+			if jscoredata.ErrCode != 0 {
+				actor.sendResp(nil) //todo send errormsg
 				actor.isclosing = true
 				actor.a.Destroy()
+			} else {
+				actor.sendResp(nil) // todo send msg
 			}
 		case <-actor.heartTicker.C:
 			if actor.heartFlag == true {
