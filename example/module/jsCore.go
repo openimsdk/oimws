@@ -10,6 +10,9 @@ import (
 	"github.com/xuexihuang/new_gonet/example/core_func"
 	"reflect"
 )
+/*
+	JsCore 相关的内容，主要实现了信息收、发、销毁
+*/
 
 type JsCore struct {
 	closeChan       chan bool
@@ -33,15 +36,17 @@ type JsInterface interface {
 	Destroy()
 }
 
+
 func NewJsCore() *JsCore {
 	return &JsCore{funcRouter: core_func.NewFuncRouter()}
 }
 func (core *JsCore) RecvMsg() chan interface{} {
-
 	return core.OutMsgChan
 }
 
-func (core *JsCore) SendMsg(req *Req) error {
+func (core *JsCore) SendMsg(request interface{}) error{
+//func (core *JsCore) SendMsg(req *Req) error {
+	req:=request.(Req)
 	methodValue := reflect.ValueOf(core.funcRouter).MethodByName(req.ReqFuncName)
 	if !methodValue.IsValid() {
 		log.ZWarn(context.Background(),"method is valid",errors.New("method is valid"),
@@ -57,6 +62,7 @@ func (core *JsCore) SendMsg(req *Req) error {
 	for i, arg := range args {
 		argsValue[i] = reflect.ValueOf(arg)
 	}
+	// TODO
 	methodValue.Call(argsValue)
 	//core.ReceivMsgChan<-req
 	return nil
@@ -71,10 +77,11 @@ func (core *JsCore) run() {
 		select {
 		case <-core.closeChan:
 			return
-		case indata:=<-core.ReceivMsgChan
+		case indata:=<-core.ReceivMsgChan:
 		//todo your logic
-		case <sdk.out
+		case <-sdk.out:
 		}
 	}
 
 }
+、

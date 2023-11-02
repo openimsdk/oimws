@@ -3,6 +3,7 @@ module github.com/xuexihuang/new_gonet
 go 1.19
 
 require (
+	github.com/OpenIMSDK/tools v0.0.5
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/gorilla/websocket v1.5.0
 	github.com/openimsdk/openim-sdk-core/v3 v3.3.0
@@ -11,7 +12,6 @@ require (
 
 require (
 	github.com/OpenIMSDK/protocol v0.0.14 // indirect
-	github.com/OpenIMSDK/tools v0.0.5 // indirect
 	github.com/antonfisher/nested-logrus-formatter v1.3.1 // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
