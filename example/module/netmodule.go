@@ -87,6 +87,7 @@ func checkToken(data *common.TAgentUserData) (*ParamStru, error) {
 	}
 	//todo  这里添加你的token效验逻辑验证token的合法性
 	//ret.UserId=""
+	ret.UrlPath = data.AppString
 	ret.Token = token
 	return ret, nil
 }
