@@ -3,12 +3,10 @@ package module
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/xuexihuang/new_gonet/example/core_func"
 	"reflect"
+
+	"github.com/xuexihuang/new_gonet/example/core_func"
 )
-/*
-	JsCore 相关的内容，主要实现了信息收、发、销毁
-*/
 
 type JsCore struct {
 	RespMessagesChan chan *core_func.EventData
@@ -36,14 +34,6 @@ type jsParam struct {
 	isBackground bool
 }
 
-<<<<<<< HEAD
-
-func NewJsCore() *JsCore {
-	return &JsCore{funcRouter: core_func.NewFuncRouter()}
-}
-func (core *JsCore) RecvMsg() chan interface{} {
-	return core.OutMsgChan
-=======
 func NewJsCore(para *ParamStru) *JsCore {
 	respChan := make(chan *core_func.EventData)
 	return &JsCore{RespMessagesChan: respChan, funcRouter: core_func.NewFuncRouter(respChan)}
@@ -51,12 +41,9 @@ func NewJsCore(para *ParamStru) *JsCore {
 func (core *JsCore) RecvMsg() chan *core_func.EventData {
 
 	return core.RespMessagesChan
->>>>>>> 73c1b018562a5bf1cd93b040bdd3ceabd5533454
 }
 
-func (core *JsCore) SendMsg(request interface{}) error{
-//func (core *JsCore) SendMsg(req *Req) error {
-	req:=request.(Req)
+func (core *JsCore) SendMsg(req *Req) error {
 	methodValue := reflect.ValueOf(core.funcRouter).MethodByName(req.ReqFuncName)
 	if !methodValue.IsValid() {
 		//log.ZWarn(context.Background(), "method is valid", errors.New("method is valid"), "data", req)
@@ -72,30 +59,11 @@ func (core *JsCore) SendMsg(request interface{}) error{
 	for i, arg := range args {
 		argsValue[i] = reflect.ValueOf(arg)
 	}
-	// TODO
 	methodValue.Call(argsValue)
 	//core.ReceivMsgChan<-req
 	return nil
 }
 func (core *JsCore) Destroy() {
 
-<<<<<<< HEAD
-	core.closeChan<-true
-}
-
-func (core *JsCore) run() {
-	for  {
-		select {
-		case <-core.closeChan:
-			return
-		case indata:=<-core.ReceivMsgChan:
-		//todo your logic
-		case <-sdk.out:
-		}
-	}
-
-=======
 	// destroy funcRouter
->>>>>>> 73c1b018562a5bf1cd93b040bdd3ceabd5533454
 }
-、

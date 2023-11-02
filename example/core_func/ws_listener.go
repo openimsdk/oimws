@@ -7,39 +7,36 @@ import (
 	"strings"
 )
 
-/*
-	连接状态相关的内容
-*/
-
 type ConnCallback struct {
 	respMessage *RespMessage
 }
 
+// NewConnCallback creates a new instance of ConnCallback.
 func NewConnCallback(respMessage *RespMessage) *ConnCallback {
 	return &ConnCallback{respMessage: respMessage}
 }
 
-// OnConnecting 连接中
+// OnConnecting is triggered when a connection attempt starts.
 func (c ConnCallback) OnConnecting() {
 	c.respMessage.sendEventSuccessRespNoData(getSelfFuncName())
 }
 
-// OnConnectSuccess 连接成功
+// OnConnectSuccess is triggered when a connection is successfully established.
 func (c ConnCallback) OnConnectSuccess() {
 	c.respMessage.sendEventSuccessRespNoData(getSelfFuncName())
 }
 
-// OnConnectFailed 连接失败
+// OnConnectFailed is triggered when there's a failure in connection attempt.
 func (c ConnCallback) OnConnectFailed(errCode int32, errMsg string) {
 	c.respMessage.sendEventFailedRespNoData(getSelfFuncName(), errCode, errMsg)
 }
 
-// OnKickedOffline 强制下线
+// OnKickedOffline is triggered when the user is kicked offline.
 func (c ConnCallback) OnKickedOffline() {
 	c.respMessage.sendEventSuccessRespNoData(getSelfFuncName())
 }
 
-// OnUserTokenExpired token 过期
+// OnUserTokenExpired is triggered when the user's token expires.
 func (c ConnCallback) OnUserTokenExpired() {
 	c.respMessage.sendEventSuccessRespNoData(getSelfFuncName())
 }
@@ -59,30 +56,41 @@ type ConversationCallback struct {
 	respMessage *RespMessage
 }
 
+// NewConversationCallback initializes a new instance of ConversationCallback.
+// respMessage: Reference to an instance of RespMessage which handles response sending.
 func NewConversationCallback(respMessage *RespMessage) *ConversationCallback {
 	return &ConversationCallback{respMessage: respMessage}
 }
 
+// OnSyncServerStart sends a response when server syncing starts.
 func (c ConversationCallback) OnSyncServerStart() {
 	c.respMessage.sendEventSuccessRespNoData(getSelfFuncName())
 }
 
+// OnSyncServerFinish sends a response when server syncing finishes.
 func (c ConversationCallback) OnSyncServerFinish() {
 	c.respMessage.sendEventSuccessRespNoData(getSelfFuncName())
 }
 
+// OnSyncServerFailed sends a failed response when server syncing encounters an error.
 func (c ConversationCallback) OnSyncServerFailed() {
-	c.respMessage.sendEventFailedREspNoErr(getSelfFuncName())
+	c.respMessage.sendEventFailedRespNoErr(getSelfFuncName())
 }
 
+// OnNewConversation sends a response when a new conversation is detected.
+// conversationList: JSON serialized string representing the list of new conversations.
 func (c ConversationCallback) OnNewConversation(conversationList string) {
 	c.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), conversationList)
 }
 
+// OnConversationChanged sends a response when an existing conversation changes.
+// conversationList: JSON serialized string representing the list of changed conversations.
 func (c ConversationCallback) OnConversationChanged(conversationList string) {
 	c.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), conversationList)
 }
 
+// OnTotalUnreadMessageCountChanged sends a response when the total unread message count changes.
+// totalUnreadCount: Total count of unread messages.
 func (c ConversationCallback) OnTotalUnreadMessageCountChanged(totalUnreadCount int32) {
 	c.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), fmt.Sprintf("%d", totalUnreadCount))
 }
@@ -91,34 +99,46 @@ type AdvancedMsgCallback struct {
 	respMessage *RespMessage
 }
 
+// NewAdvancedMsgCallback creates a new AdvancedMsgCallback instance.
 func NewAdvancedMsgCallback(respMessage *RespMessage) *AdvancedMsgCallback {
 	return &AdvancedMsgCallback{respMessage: respMessage}
 }
 
+// OnRecvNewMessage is called when a new message is received.
+// It sends a success response with the received message data.
 func (a AdvancedMsgCallback) OnRecvNewMessage(message string) {
 	a.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), message)
 }
 
+// OnRecvC2CReadReceipt is called when a read receipt for a C2C message is received.
+// It sends a success response with the list of read receipts.
 func (a AdvancedMsgCallback) OnRecvC2CReadReceipt(msgReceiptList string) {
 	a.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), msgReceiptList)
 }
 
+// OnRecvGroupReadReceipt is called when a read receipt for a group message is received.
+// It sends a success response with the list of group read receipts.
 func (a AdvancedMsgCallback) OnRecvGroupReadReceipt(groupMsgReceiptList string) {
 	a.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), groupMsgReceiptList)
 }
 
+// OnRecvMessageRevoked is called when a message is revoked.
+// It sends a success response with the ID of the revoked message.
 func (a AdvancedMsgCallback) OnRecvMessageRevoked(msgID string) {
 	a.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), msgID)
 }
 
+// OnNewRecvMessageRevoked handles the receipt of a revoked message.
 func (a AdvancedMsgCallback) OnNewRecvMessageRevoked(messageRevoked string) {
 	a.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), messageRevoked)
 }
 
+// OnRecvMessageModified handles the modification of a received message.
 func (a AdvancedMsgCallback) OnRecvMessageModified(message string) {
 	a.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), message)
 }
 
+// OnRecvMessageExtensionsChanged handles changes in message extensions.
 func (a AdvancedMsgCallback) OnRecvMessageExtensionsChanged(clientMsgID string, reactionExtensionList string) {
 	m := make(map[string]interface{})
 	m["clientMsgID"] = clientMsgID
@@ -128,6 +148,7 @@ func (a AdvancedMsgCallback) OnRecvMessageExtensionsChanged(clientMsgID string, 
 	a.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), dataString)
 }
 
+// OnRecvMessageExtensionsDeleted handles deletion of message extensions.
 func (a AdvancedMsgCallback) OnRecvMessageExtensionsDeleted(clientMsgID string, reactionExtensionKeyList string) {
 	m := make(map[string]interface{})
 	m["clientMsgID"] = clientMsgID
@@ -137,6 +158,7 @@ func (a AdvancedMsgCallback) OnRecvMessageExtensionsDeleted(clientMsgID string, 
 	a.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), dataString)
 }
 
+// OnRecvMessageExtensionsAdded handles addition of new message extensions.
 func (a AdvancedMsgCallback) OnRecvMessageExtensionsAdded(clientMsgID string, reactionExtensionList string) {
 	m := make(map[string]interface{})
 	m["clientMsgID"] = clientMsgID
@@ -146,17 +168,19 @@ func (a AdvancedMsgCallback) OnRecvMessageExtensionsAdded(clientMsgID string, re
 	a.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), dataString)
 }
 
+// OnRecvOfflineNewMessage handles offline new messages.
 func (a AdvancedMsgCallback) OnRecvOfflineNewMessage(message string) {
 	a.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), message)
 }
 
+// OnMsgDeleted handles deleted messages.
 func (a AdvancedMsgCallback) OnMsgDeleted(message string) {
 	a.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), message)
 }
 
 type BaseCallback struct {
 	respMessage *RespMessage
-}d
+}
 
 type BatchMessageCallback struct {
 	respMessage *RespMessage
@@ -176,7 +200,6 @@ func (b *BatchMessageCallback) OnRecvNewMessages(messageList string) {
 func (b *BatchMessageCallback) OnRecvOfflineNewMessages(messageList string) {
 	b.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), messageList)
 }
-
 
 type FriendCallback struct {
 	respMessage *RespMessage
@@ -231,7 +254,6 @@ func (f *FriendCallback) OnBlackAdded(blackInfo string) {
 func (f *FriendCallback) OnBlackDeleted(blackInfo string) {
 	f.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), blackInfo)
 }
-
 
 type GroupCallback struct {
 	respMessage *RespMessage
@@ -296,7 +318,6 @@ func (g *GroupCallback) OnGroupApplicationRejected(groupApplication string) {
 func (g *GroupCallback) OnGroupDismissed(groupInfo string) {
 	g.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), groupInfo)
 }
-
 
 // UserCallback represents a callback handler for user-related events.
 type UserCallback struct {

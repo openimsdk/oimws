@@ -39,7 +39,6 @@ func NewFuncRouter(respMessagesChan chan *EventData) *FuncRouter {
 	return &FuncRouter{respMessage: NewRespMessage(respMessagesChan)}
 }
 
-// 调用函数，并处理函数返回结果
 func (f *FuncRouter) call(operationID string, fn any, args ...any) {
 	go func() {
 		res, err := f.call_(operationID, fn, args...)
@@ -68,7 +67,6 @@ func CheckResourceLoad(uSDK *login.LoginMgr, funcName string) error {
 	if parts[len(parts)-1] == "Login-fm" {
 		return nil
 	}
-	// 判断 Friend、User、Group、Conversation、Full 是否为 null
 	if uSDK.Friend() == nil || uSDK.User() == nil || uSDK.Group() == nil || uSDK.Conversation() == nil ||
 		uSDK.Full() == nil {
 		return utils.Wrap(errors.New("CheckResourceLoad failed, resource nil "), "")
@@ -76,7 +74,6 @@ func CheckResourceLoad(uSDK *login.LoginMgr, funcName string) error {
 	return nil
 }
 
-// 具体的远程调用逻辑
 func (f *FuncRouter) call_(operationID string, fn any, args ...any) (res any, err error) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -84,19 +81,16 @@ func (f *FuncRouter) call_(operationID string, fn any, args ...any) (res any, er
 			err = fmt.Errorf("call panic: %+v", r)
 		}
 	}()
-	// 反射获取 fn 类型的值及类型
 	funcPtr := reflect.ValueOf(fn).Pointer()
 	funcName := runtime.FuncForPC(funcPtr).Name()
 
 	if operationID == "" {
 		return nil, sdkerrs.ErrArgs.Wrap("call function operationID is empty")
 	}
-	// 检测 skd 资源是否就绪
 	if err := CheckResourceLoad(f.userForSDK, funcName); err != nil {
 		return nil, sdkerrs.ErrResourceLoad.Wrap("not load resource")
 	}
 
-	// 传入 operationID，获取 ctx
 	ctx := ccontext.WithOperationID(f.userForSDK.BaseCtx(), operationID)
 	log.ZInfo(ctx, "call function", "in sdk args", args)
 

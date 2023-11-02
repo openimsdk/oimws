@@ -7,19 +7,8 @@ import (
 	"github.com/openimsdk/openim-sdk-core/v3/pkg/sdkerrs"
 )
 
-/*
-	定义 RespMessage 结构体，用于发送各种消息
-*/
-
 type RespMessage struct {
 	respMessagesChan chan *EventData
-	//	type EventData struct {
-	//	Event       string `json:"event"`
-	//	ErrCode     int32  `json:"errCode"`
-	//	ErrMsg      string `json:"errMsg"`
-	//	Data        string `json:"data"`
-	//	OperationID string `json:"operationID"`
-	//}
 }
 
 func NewRespMessage(respMessagesChan chan *EventData) *RespMessage {
@@ -49,18 +38,19 @@ func (r *RespMessage) sendOnErrorResp(operationID string, err error) {
 	r.respMessagesChan <- resp
 }
 
-func (r *RespMessage) sendEventFailedREspNoErr(event string) {
+// sendEventFailedRespNoErr sends a failed event response without error details.
+// event: Name of the event.
+func (r *RespMessage) sendEventFailedRespNoErr(event string) {
 	r.respMessagesChan <- &EventData{
 		Event: event,
 	}
 }
 
-
 // sendEventSuccessRespWithData sends a successful event response with associated data.
 func (r *RespMessage) sendEventSuccessRespWithData(event string, data string) {
 	r.respMessagesChan <- &EventData{
 		Event: event,
-		Data:  data, 
+		Data:  data,
 	}
 }
 

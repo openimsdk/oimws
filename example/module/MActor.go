@@ -11,11 +11,6 @@ import (
 	log "github.com/xuexihuang/new_log15"
 )
 
-/*
-	主要结构体是 MActorIm
-	主要实现了 MActor 接口
-*/
-
 type ParamStru struct {
 	UrlPath   string
 	Token     string
