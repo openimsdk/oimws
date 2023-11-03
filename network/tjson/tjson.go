@@ -24,7 +24,7 @@ func (p *Processor) UsePacketMode() bool {
 func (p *Processor) Marshal(msg interface{}) (*common.TWSData, error) {
 	////////////////////////////////////////////////////////////////////////////
 	tsend := msg.(*common.TWSData)
-	if tsend.MsgType != common.TextMsg && tsend.MsgType != common.BinaryMsg {
+	if tsend.MsgType != common.MessageText && tsend.MsgType != common.MessageBinary {
 		return nil, errors.New("msg is not correct")
 	}
 	return tsend, nil
@@ -37,11 +37,11 @@ func (p *Processor) Route(msg interface{}, userData interface{}) error {
 }
 func (p *Processor) UnmarshalMul(nType int, data []byte) (interface{}, error) {
 	ret := &common.TWSData{}
-	if nType == common.TextMessage {
-		ret.MsgType = common.TextMsg
+	if nType == common.MessageText {
+		ret.MsgType = common.MessageText
 		ret.Msg = data
 	} else {
-		ret.MsgType = common.BinaryMsg
+		ret.MsgType = common.MessageBinary
 		ret.Msg = data
 	}
 	return ret, nil

@@ -36,7 +36,7 @@ type FuncRouter struct {
 }
 
 func NewFuncRouter(respMessagesChan chan *EventData) *FuncRouter {
-	return &FuncRouter{respMessage: NewRespMessage(respMessagesChan)}
+	return &FuncRouter{respMessage: NewRespMessage(respMessagesChan), userForSDK: new(open_im_sdk.LoginMgr)}
 }
 
 func (f *FuncRouter) call(operationID string, fn any, args ...any) {

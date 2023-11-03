@@ -1,7 +1,9 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"github.com/xuexihuang/new_gonet/example/core_func"
 	"github.com/xuexihuang/new_gonet/example/module"
 	"github.com/xuexihuang/new_gonet/gate"
 	"github.com/xuexihuang/new_gonet/network/tjson"
@@ -21,13 +23,13 @@ type GateNet struct {
 	Wg       sync.WaitGroup
 }
 
-func Initsever() *GateNet {
+func Initsever(wsPort int) *GateNet {
 	gatenet := new(GateNet)
 	gatenet.Gate = &gate.Gate{
 		MaxConnNum:      100,
 		PendingWriteNum: 200,
 		MaxMsgLen:       20000,
-		WSAddr:          ":80", // todo change your ip_port
+		WSAddr:          ":" + fmt.Sprintf("%d", wsPort),
 		HTTPTimeout:     10 * time.Second,
 		CertFile:        "",
 		KeyFile:         "",
@@ -53,10 +55,24 @@ func (gt *GateNet) CloseGate() {
 }
 
 func main() {
+	var sdkWsPort, logLevel *int
+	var openIMWsAddress, openIMApiAddress, openIMDbDir *string
+	openIMApiAddress = flag.String("openIM_api_address", "http://127.0.0.1:10002",
+		"openIM api listening address")
+	openIMWsAddress = flag.String("openIM_ws_address", "ws://127.0.0.1:10001",
+		"openIM ws listening address")
+	sdkWsPort = flag.Int("sdk_ws_port", 10003, "openIMSDK ws listening port")
+	logLevel = flag.Int("openIM_log_level", 6, "control log output level")
+	openIMDbDir = flag.String("openIMDbDir", "../db/sdk/", "openIM db dir")
+	flag.Parse()
+	core_func.Config.WsAddr = *openIMWsAddress
+	core_func.Config.ApiAddr = *openIMApiAddress
+	core_func.Config.DataDir = *openIMDbDir
+	core_func.Config.LogLevel = uint32(*logLevel)
 	log.SetOutLevel(log.LvlInfo)
 	fmt.Println("客户端启动....")
 	log.Info("客户端启动....")
-	gatenet := Initsever()
+	gatenet := Initsever(*sdkWsPort)
 	gatenet.SetMsgFun(module.NewAgent, module.CloseAgent, module.DataRecv)
 	go gatenet.Runloop()
 	c := make(chan os.Signal, 1)

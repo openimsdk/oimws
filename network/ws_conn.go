@@ -42,9 +42,9 @@ func newWSConn(conn *websocket.Conn, pendingWriteNum int, maxMsgLen uint32, appu
 				break
 			}
 			var err error
-			if b.MsgType == common.BinaryMsg {
+			if b.MsgType == common.MessageBinary {
 				err = conn.WriteMessage(websocket.BinaryMessage, b.Msg)
-			} else if b.MsgType == common.TextMsg {
+			} else if b.MsgType == common.MessageText {
 				err = conn.WriteMessage(websocket.TextMessage, b.Msg)
 			}
 			if err != nil {

@@ -1,22 +1,41 @@
 package core_func
 
 import (
-	"encoding/json"
-
+	"github.com/OpenIMSDK/tools/log"
 	"github.com/openimsdk/openim-sdk-core/v3/pkg/sdkerrs"
 	"github.com/openimsdk/openim-sdk-core/v3/sdk_struct"
+	"strconv"
 )
 
-func (f *FuncRouter) InitSDK(operationID string, args ...any) {
+var Config sdk_struct.IMConfig
+
+const (
+	rotateCount  uint = 0
+	rotationTime uint = 24
+)
+
+func (f *FuncRouter) InitSDK(operationID, platformID string) {
 	callback := NewConnCallback(f.respMessage)
-	if len(args) == 0 {
-		f.respMessage.sendOnErrorResp(operationID, sdkerrs.ErrArgs)
+	j, err := strconv.ParseInt(platformID, 10, 64)
+	if err != nil {
+		f.respMessage.sendOnErrorResp(operationID, err)
+		return
 	}
-	config := sdk_struct.IMConfig{}
-	if v, ok := args[0].(string); ok {
-		if err := json.Unmarshal([]byte(v), &config); err != nil {
-			f.respMessage.sendOnErrorResp(operationID, sdkerrs.ErrArgs)
-		}
+	config := sdk_struct.IMConfig{
+		PlatformID:           int32(j),
+		ApiAddr:              Config.ApiAddr,
+		WsAddr:               Config.WsAddr,
+		DataDir:              Config.DataDir,
+		LogLevel:             Config.LogLevel,
+		IsLogStandardOutput:  Config.IsLogStandardOutput,
+		LogFilePath:          Config.LogFilePath,
+		IsExternalExtensions: Config.IsExternalExtensions,
+	}
+	if err := log.InitFromConfig("open-im-sdk-core", "",
+		int(config.LogLevel), config.IsLogStandardOutput, false, config.LogFilePath,
+		rotateCount, rotationTime); err != nil {
+		f.respMessage.sendOnErrorResp(operationID, err)
+		return
 	}
 	if f.userForSDK.InitSDK(config, callback) {
 		f.respMessage.sendOnErrorResp(operationID, sdkerrs.ErrArgs)

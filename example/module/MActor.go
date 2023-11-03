@@ -3,12 +3,20 @@ package module
 import (
 	"encoding/json"
 	"errors"
+	"github.com/xuexihuang/new_gonet/example/core_func"
+	"net/url"
 	"sync"
 	"time"
 
 	"github.com/xuexihuang/new_gonet/common"
 	"github.com/xuexihuang/new_gonet/gate"
 	log "github.com/xuexihuang/new_log15"
+)
+
+const (
+	WsUserID    = "sendID"
+	OperationID = "operationID"
+	PlatformID  = "platformID"
 )
 
 type ParamStru struct {
@@ -19,6 +27,21 @@ type ParamStru struct {
 	GroupId   int64
 	OrgId     int64
 	OrgName   string
+}
+
+func (p *ParamStru) GetOperationID() string {
+	u, err := url.Parse(p.UrlPath)
+	if err != nil {
+		return ""
+	}
+	return u.Query().Get(OperationID)
+}
+func (p *ParamStru) GetPlatformID() string {
+	u, err := url.Parse(p.UrlPath)
+	if err != nil {
+		return ""
+	}
+	return u.Query().Get(PlatformID)
 }
 
 type MActorIm struct {
@@ -70,14 +93,14 @@ func (actor *MActorIm) run() {
 			}
 			data := recvData.(*common.TWSData)
 			_ = actor.doRecvPro(data) //todo add your module logic
-		case jscoredata := <-actor.mJsCore.RecvMsg():
-			if jscoredata.ErrCode != 0 {
-				actor.sendResp(nil) //todo send errormsg
-				actor.isclosing = true
-				actor.a.Destroy()
-			} else {
-				actor.sendResp(nil) // todo send msg
-			}
+		case resp := <-actor.mJsCore.RecvMsg():
+			//if jscoredata.ErrCode != 0 {
+			//	actor.sendResp(nil) //todo send errormsg
+			//	actor.isclosing = true
+			//	actor.a.Destroy()
+			//} else {
+			actor.sendEventResp(resp) // todo send msg
+			//}
 		case <-actor.heartTicker.C:
 			if actor.heartFlag == true {
 				actor.heartFlag = false
@@ -105,24 +128,18 @@ func (actor *MActorIm) ProcessRecvMsg(msg interface{}) error {
 }
 
 func (actor *MActorIm) doRecvPro(data *common.TWSData) error {
-	if data.MsgType == common.BinaryMsg {
-		req := &RequestSt{}
+	if data.MsgType == common.MessageBinary {
+		req := &Req{}
 		err := json.Unmarshal(data.Msg, req)
 		if err != nil {
 			log.Error("解析前端协议出错", "err", err, "sessionId", actor.SessionId)
+			//todo response error
 			return err
 		}
-		if req.Cmd == HEART_CMD {
-			actor.heartFlag = true
-		} else if req.Cmd == SUB_CMD { // loginc data
-			log.Info("收到sub命令", "req", req, "sessionId", actor.SessionId)
-			actor.mJsCore.SendMsg(nil) //todo
-			res := &ResponseSt{Type: RESP_OP_TYPE, Cmd: SUB_CMD, Topic: req.Topic, RequestId: req.RequestId, Success: true,
-				MsgSeqId: req.MsgSeqId, MsgTimeStamp: req.MsgTimeStamp}
-			actor.sendResp(res)
-		} else {
-			log.Error("前端协议cmd字段不是自定义字符串", "req", string(data.Msg), "sessionId", actor.SessionId)
-			return errors.New("前端协议cmd字段不是自定义字符串")
+		log.Info("收到sub命令", "req", req, "sessionId", actor.SessionId)
+		err = actor.mJsCore.SendMsg(req)
+		if err != nil {
+			actor.sendEventResp(&core_func.EventData{ErrCode: 20000, ErrMsg: err.Error(), OperationID: req.OperationID})
 		}
 	}
 	return nil
@@ -130,6 +147,11 @@ func (actor *MActorIm) doRecvPro(data *common.TWSData) error {
 
 func (actor *MActorIm) sendResp(res *ResponseSt) {
 	resb, _ := json.Marshal(res)
-	resSend := &common.TWSData{MsgType: common.BinaryMsg, Msg: resb}
+	resSend := &common.TWSData{MsgType: common.MessageBinary, Msg: resb}
+	actor.a.WriteMsg(resSend)
+}
+func (actor *MActorIm) sendEventResp(res *core_func.EventData) {
+	resb, _ := json.Marshal(res)
+	resSend := &common.TWSData{MsgType: common.MessageText, Msg: resb}
 	actor.a.WriteMsg(resSend)
 }
