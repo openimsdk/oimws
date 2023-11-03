@@ -65,8 +65,6 @@ func NewMActor(a gate.Agent, sessionId string, appParam *ParamStru) (MActor, err
 		heartTicker: time.NewTicker(15 * time.Second), heartFlag: false, heartTickerSend: time.NewTicker(5 * time.Second)}
 	///////////////////////////////////////
 	ret.mJsCore = NewJsCore(appParam) //todo
-	res := &ResponseSt{Type: HEART_CONFIG_TYPE, Success: true, Rate: 5}
-	ret.sendResp(res)
 	///////////////////////////////////////
 	go ret.run()
 	return ret, nil
@@ -92,7 +90,7 @@ func (actor *MActorIm) run() {
 				continue
 			}
 			data := recvData.(*common.TWSData)
-			_ = actor.doRecvPro(data) //todo add your module logic
+			_ = actor.doRecvPro(data)
 		case resp := <-actor.mJsCore.RecvMsg():
 			//if jscoredata.ErrCode != 0 {
 			//	actor.sendResp(nil) //todo send errormsg

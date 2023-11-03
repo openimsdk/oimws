@@ -29,13 +29,6 @@ type JsInterface interface {
 	//关闭循环，并释放资源
 	Destroy()
 }
-type jsParam struct {
-	userId       string
-	token        string
-	platformID   string
-	operationID  string
-	isBackground bool
-}
 
 func NewJsCore(para *ParamStru) *JsCore {
 	respChan := make(chan *core_func.EventData)
@@ -68,6 +61,5 @@ func (core *JsCore) SendMsg(req *Req) error {
 	return nil
 }
 func (core *JsCore) Destroy() {
-
-	// destroy funcRouter
+	core.funcRouter.Logout("socket close")
 }
