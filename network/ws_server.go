@@ -3,12 +3,13 @@ package network
 import (
 	"crypto/tls"
 	"fmt"
-	"github.com/xuexihuang/new_gonet/common"
-	log "github.com/xuexihuang/new_log15"
 	"net"
 	"net/http"
 	"sync"
 	"time"
+
+	"github.com/xuexihuang/new_gonet/common"
+	log "github.com/xuexihuang/new_log15"
 
 	"github.com/gorilla/websocket"
 )
