@@ -45,16 +45,26 @@ func NewFuncRouter(respMessagesChan chan *EventData, sessionId string) *FuncRout
 func (f *FuncRouter) call(operationID string, fn any, args ...any) {
 	go func() {
 		log.ZInfo(context.Background(), "opid", "opid", operationID)
-		res, err := f.call_(operationID, fn, args...)
+		funcPtr := reflect.ValueOf(fn).Pointer()
+		funcName := runtime.FuncForPC(funcPtr).Name()
+		parts := strings.Split(funcName, ".")
+		var trimFuncName string
+		if trimFuncNameList := strings.Split(parts[len(parts)-1], "-"); len(trimFuncNameList) == 0 {
+			f.respMessage.sendOnErrorResp(operationID, "FuncError", errors.New("call function trimFuncNameList is empty"))
+			return
+		} else {
+			trimFuncName = trimFuncNameList[0]
+		}
+		res, err := f.call_(operationID, fn, funcName, args...)
 		if err != nil {
-			f.respMessage.sendOnErrorResp(operationID, err)
+			f.respMessage.sendOnErrorResp(operationID, trimFuncName, err)
 		}
 		data, err := json.Marshal(res)
 		if err != nil {
-			f.respMessage.sendOnErrorResp(operationID, err)
+			f.respMessage.sendOnErrorResp(operationID, trimFuncName, err)
 			return
 		} else {
-			f.respMessage.sendOnSuccessResp(operationID, string(data))
+			f.respMessage.sendOnSuccessResp(operationID, trimFuncName, string(data))
 		}
 	}()
 }
@@ -78,16 +88,13 @@ func CheckResourceLoad(uSDK *open_im_sdk.LoginMgr, funcName string) error {
 	return nil
 }
 
-func (f *FuncRouter) call_(operationID string, fn any, args ...any) (res any, err error) {
+func (f *FuncRouter) call_(operationID string, fn any, funcName string, args ...any) (res any, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Printf("panic: %+v\n%s", r, debug.Stack())
 			err = fmt.Errorf("call panic: %+v", r)
 		}
 	}()
-	funcPtr := reflect.ValueOf(fn).Pointer()
-	funcName := runtime.FuncForPC(funcPtr).Name()
-
 	if operationID == "" {
 		return nil, sdkerrs.ErrArgs.Wrap("call function operationID is empty")
 	}

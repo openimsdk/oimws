@@ -15,17 +15,17 @@ func NewRespMessage(respMessagesChan chan *EventData) *RespMessage {
 	return &RespMessage{respMessagesChan: respMessagesChan}
 }
 
-func (r *RespMessage) sendOnSuccessResp(operationID string, data string) {
+func (r *RespMessage) sendOnSuccessResp(operationID, event string, data string) {
 	r.respMessagesChan <- &EventData{
-		Event:       Success,
+		Event:       event,
 		OperationID: operationID,
 		Data:        data,
 	}
 }
 
-func (r *RespMessage) sendOnErrorResp(operationID string, err error) {
+func (r *RespMessage) sendOnErrorResp(operationID, event string, err error) {
 	resp := &EventData{
-		Event:       Failed,
+		Event:       event,
 		OperationID: operationID,
 	}
 	if code, ok := err.(errs.CodeError); ok {

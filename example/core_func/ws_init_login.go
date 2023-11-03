@@ -20,8 +20,7 @@ func (f *FuncRouter) InitSDK(operationID, platformID string) {
 	callback := NewConnCallback(f.respMessage)
 	j, err := strconv.ParseInt(platformID, 10, 64)
 	if err != nil {
-
-		f.respMessage.sendOnErrorResp(operationID, err)
+		f.respMessage.sendOnErrorResp(operationID, "InitSDK", err)
 		return
 	}
 	config := sdk_struct.IMConfig{
@@ -37,13 +36,13 @@ func (f *FuncRouter) InitSDK(operationID, platformID string) {
 	if err := log.InitFromConfig("open-im-sdk-core", "",
 		int(config.LogLevel), config.IsLogStandardOutput, false, config.LogFilePath,
 		rotateCount, rotationTime); err != nil {
-		f.respMessage.sendOnErrorResp(operationID, err)
+		f.respMessage.sendOnErrorResp(operationID, "InitSDK", err)
 		return
 	}
 	if f.userForSDK.InitSDK(config, callback) {
-		f.respMessage.sendOnSuccessResp(operationID, "")
+		f.respMessage.sendOnSuccessResp(operationID, "InitSDK", "")
 	} else {
-		f.respMessage.sendOnErrorResp(operationID, sdkerrs.ErrArgs)
+		f.respMessage.sendOnErrorResp(operationID, "InitSDK", sdkerrs.ErrArgs)
 	}
 }
 
