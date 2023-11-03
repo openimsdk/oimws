@@ -46,8 +46,12 @@ func newWSConn(conn *websocket.Conn, pendingWriteNum int, maxMsgLen uint32, appu
 				err = conn.WriteMessage(websocket.BinaryMessage, b.Msg)
 			} else if b.MsgType == common.MessageText {
 				err = conn.WriteMessage(websocket.TextMessage, b.Msg)
+			} else if b.MsgType == common.PingMessage {
+				log.Info("ping message", "b", b)
+				err = conn.WriteMessage(websocket.PingMessage, b.Msg)
 			}
 			if err != nil {
+				log.Error("send message err", "err", err.Error())
 				break
 			}
 			//fmt.Println("send msg is :", b)
@@ -130,8 +134,6 @@ func (wsConn *WSConn) WriteMsg(args *common.TWSData) error {
 	// check len
 	if msgLen > wsConn.maxMsgLen {
 		return errors.New("message too long")
-	} else if msgLen < 1 {
-		return errors.New("message too short")
 	}
 
 	wsConn.doWrite(args)

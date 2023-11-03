@@ -31,6 +31,7 @@ func NewAgent(a gate.Agent) {
 		a.Close()
 		return
 	}
+	log.Info("checkToken info", "param", param, "err", err)
 	actor, err := NewMActor(a, param.SessionId, param)
 	if err != nil {
 		log.Error("NewMQActor error", "err", err, "sessionId", aUerData.SessionID)

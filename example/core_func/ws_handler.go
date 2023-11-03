@@ -1,6 +1,7 @@
 package core_func
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -33,14 +34,17 @@ type EventData struct {
 type FuncRouter struct {
 	userForSDK  *open_im_sdk.LoginMgr
 	respMessage *RespMessage
+	sessionId   string
 }
 
-func NewFuncRouter(respMessagesChan chan *EventData) *FuncRouter {
-	return &FuncRouter{respMessage: NewRespMessage(respMessagesChan), userForSDK: new(open_im_sdk.LoginMgr)}
+func NewFuncRouter(respMessagesChan chan *EventData, sessionId string) *FuncRouter {
+	return &FuncRouter{respMessage: NewRespMessage(respMessagesChan),
+		userForSDK: new(open_im_sdk.LoginMgr), sessionId: sessionId}
 }
 
 func (f *FuncRouter) call(operationID string, fn any, args ...any) {
 	go func() {
+		log.ZInfo(context.Background(), "opid", "opid", operationID)
 		res, err := f.call_(operationID, fn, args...)
 		if err != nil {
 			f.respMessage.sendOnErrorResp(operationID, err)

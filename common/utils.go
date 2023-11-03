@@ -12,11 +12,11 @@ func TryRecoverAndDebugPrint() {
 	if errs == nil {
 		return
 	}
-	log.Crit("[Panic]", "err", errs, "stackInfo", string(debug.Stack()))
+	log.Crit("[Panic]", "err", errs, "stackInfo", debug.Stack())
 
 }
 
-var G_flakeNode *snowflake.Node
+var G_flakeNode snowflake.Node
 
 func GetRandomSessionId() string {
 

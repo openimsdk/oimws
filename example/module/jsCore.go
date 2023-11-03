@@ -30,9 +30,10 @@ type JsInterface interface {
 	Destroy()
 }
 
-func NewJsCore(para *ParamStru) *JsCore {
-	respChan := make(chan *core_func.EventData)
-	funcRouter := core_func.NewFuncRouter(respChan)
+func NewJsCore(para *ParamStru, sessionId string) *JsCore {
+	respChan := make(chan *core_func.EventData, 100)
+	funcRouter := core_func.NewFuncRouter(respChan, sessionId)
+	fmt.Println("NewJsCore", "data=", "sessionId", sessionId)
 	funcRouter.InitSDK(para.GetOperationID(), para.GetPlatformID())
 	return &JsCore{RespMessagesChan: respChan, funcRouter: funcRouter}
 }
@@ -41,6 +42,7 @@ func (core *JsCore) RecvMsg() chan *core_func.EventData {
 }
 
 func (core *JsCore) SendMsg(req *Req) error {
+	fmt.Println("method is valid", "data=", req)
 	methodValue := reflect.ValueOf(core.funcRouter).MethodByName(req.ReqFuncName)
 	if !methodValue.IsValid() {
 		//log.ZWarn(context.Background(), "method is valid", errors.New("method is valid"), "data", req)

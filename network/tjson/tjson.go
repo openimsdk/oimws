@@ -1,7 +1,6 @@
 package tjson
 
 import (
-	"errors"
 	"github.com/xuexihuang/new_gonet/common"
 )
 
@@ -24,9 +23,9 @@ func (p *Processor) UsePacketMode() bool {
 func (p *Processor) Marshal(msg interface{}) (*common.TWSData, error) {
 	////////////////////////////////////////////////////////////////////////////
 	tsend := msg.(*common.TWSData)
-	if tsend.MsgType != common.MessageText && tsend.MsgType != common.MessageBinary {
-		return nil, errors.New("msg is not correct")
-	}
+	//if tsend.MsgType != common.MessageText && tsend.MsgType != common.MessageBinary {
+	//	return nil, errors.New("msg is not correct")
+	//}
 	return tsend, nil
 }
 func (p *Processor) Unmarshal(data []byte) (interface{}, error) {

@@ -62,9 +62,9 @@ type MActorIm struct {
 
 func NewMActor(a gate.Agent, sessionId string, appParam *ParamStru) (MActor, error) {
 	ret := &MActorIm{param: appParam, a: a, SessionId: sessionId, closeChan: make(chan bool, 1), nChanLen: 10, ReceivMsgChan: make(chan interface{}, 10), isclosing: false,
-		heartTicker: time.NewTicker(15 * time.Second), heartFlag: false, heartTickerSend: time.NewTicker(5 * time.Second)}
+		heartTicker: time.NewTicker(100 * time.Second), heartFlag: false, heartTickerSend: time.NewTicker(100 * time.Second)}
 	///////////////////////////////////////
-	ret.mJsCore = NewJsCore(appParam) //todo
+	ret.mJsCore = NewJsCore(appParam, sessionId) //todo
 	///////////////////////////////////////
 	go ret.run()
 	return ret, nil
@@ -126,6 +126,7 @@ func (actor *MActorIm) ProcessRecvMsg(msg interface{}) error {
 }
 
 func (actor *MActorIm) doRecvPro(data *common.TWSData) error {
+	log.Info("message come here", "data", data)
 	if data.MsgType == common.MessageBinary {
 		req := &Req{}
 		err := json.Unmarshal(data.Msg, req)
@@ -144,12 +145,12 @@ func (actor *MActorIm) doRecvPro(data *common.TWSData) error {
 }
 
 func (actor *MActorIm) sendResp(res *ResponseSt) {
-	resb, _ := json.Marshal(res)
-	resSend := &common.TWSData{MsgType: common.MessageBinary, Msg: resb}
+	//heart := []byte("ping")
+	resSend := &common.TWSData{MsgType: common.PingMessage, Msg: nil}
 	actor.a.WriteMsg(resSend)
 }
 func (actor *MActorIm) sendEventResp(res *core_func.EventData) {
 	resb, _ := json.Marshal(res)
-	resSend := &common.TWSData{MsgType: common.MessageText, Msg: resb}
+	resSend := &common.TWSData{MsgType: common.MessageBinary, Msg: resb}
 	actor.a.WriteMsg(resSend)
 }

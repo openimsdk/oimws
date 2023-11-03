@@ -16,9 +16,11 @@ const (
 )
 
 func (f *FuncRouter) InitSDK(operationID, platformID string) {
+	fmt.Println("InitSDK", "data=", platformID, operationID)
 	callback := NewConnCallback(f.respMessage)
 	j, err := strconv.ParseInt(platformID, 10, 64)
 	if err != nil {
+
 		f.respMessage.sendOnErrorResp(operationID, err)
 		return
 	}
@@ -39,9 +41,9 @@ func (f *FuncRouter) InitSDK(operationID, platformID string) {
 		return
 	}
 	if f.userForSDK.InitSDK(config, callback) {
-		f.respMessage.sendOnErrorResp(operationID, sdkerrs.ErrArgs)
-	} else {
 		f.respMessage.sendOnSuccessResp(operationID, "")
+	} else {
+		f.respMessage.sendOnErrorResp(operationID, sdkerrs.ErrArgs)
 	}
 }
 
@@ -56,6 +58,8 @@ func (f *FuncRouter) UnInitSDK(operationID string) {
 }
 
 func (f *FuncRouter) Login(operationID string, args ...any) {
+	f.setAllListener()
+	fmt.Println(operationID, "Login")
 	f.call(operationID, f.userForSDK.Login, args...)
 }
 
@@ -78,4 +82,12 @@ func (f *FuncRouter) NetworkStatusChanged(operationID string, args ...any) {
 }
 func (f *FuncRouter) GetLoginStatus(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.GetLoginStatus, args...)
+}
+func (f *FuncRouter) setAllListener() {
+	f.userForSDK.SetConversationListener(NewConversationCallback(f.respMessage))
+	f.userForSDK.SetGroupListener(NewGroupCallback(f.respMessage))
+	f.userForSDK.SetUserListener(NewUserCallback(f.respMessage))
+	f.userForSDK.SetAdvancedMsgListener(NewAdvancedMsgCallback(f.respMessage))
+	f.userForSDK.SetFriendListener(NewFriendCallback(f.respMessage))
+
 }
