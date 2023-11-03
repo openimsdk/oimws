@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/OpenIMSDK/tools/log"
-	"github.com/openimsdk/openim-sdk-core/v3/internal/login"
+	"github.com/openimsdk/openim-sdk-core/v3/open_im_sdk"
 	"github.com/openimsdk/openim-sdk-core/v3/pkg/ccontext"
 	"github.com/openimsdk/openim-sdk-core/v3/pkg/sdkerrs"
 	"github.com/openimsdk/openim-sdk-core/v3/pkg/utils"
@@ -31,7 +31,7 @@ type EventData struct {
 }
 
 type FuncRouter struct {
-	userForSDK  *login.LoginMgr
+	userForSDK  *open_im_sdk.LoginMgr
 	respMessage *RespMessage
 }
 
@@ -56,7 +56,7 @@ func (f *FuncRouter) call(operationID string, fn any, args ...any) {
 }
 
 // CheckResourceLoad checks the SDK is resource load status.
-func CheckResourceLoad(uSDK *login.LoginMgr, funcName string) error {
+func CheckResourceLoad(uSDK *open_im_sdk.LoginMgr, funcName string) error {
 	if uSDK == nil {
 		return utils.Wrap(errors.New("CheckResourceLoad failed uSDK == nil "), "")
 	}
