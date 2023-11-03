@@ -1,6 +1,7 @@
 package core_func
 
 import (
+	"fmt"
 	"github.com/OpenIMSDK/tools/log"
 	"github.com/openimsdk/openim-sdk-core/v3/pkg/sdkerrs"
 	"github.com/openimsdk/openim-sdk-core/v3/sdk_struct"
