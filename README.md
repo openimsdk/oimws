@@ -23,6 +23,18 @@ your way so you can write real-time apps. Features include:
 go get github.com/openim-sigs/oimws
 ```
 
+**Build example**
+
+```bash
+make build
+```
+
+**Start example**
+
+```bash
+make start
+```
+
 ## [Example: chat](https://github.com/openim-sigs/oimws/tree/master/examples/chat)
 
 An encapsulated framework within `jssdk` connecting to `openim-sdk-core`, providing streamlined management and integration of WebSocket, TCP, and HTTP protocols in the OpenIM ecosystem.
