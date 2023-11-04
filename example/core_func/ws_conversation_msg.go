@@ -35,7 +35,11 @@ func (f *FuncRouter) HideConversation(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.Conversation().HideConversation, args...)
 }
 
+<<<<<<< HEAD
 // GetConversationRecvMessageOpt retrieves the options for receiving messages in a conversation.
+=======
+// deprecated.
+>>>>>>> d74713c55cc187be0746ac422a46b86d681b54c0
 func (f *FuncRouter) GetConversationRecvMessageOpt(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.Conversation().GetConversationRecvMessageOpt, args...)
 }
@@ -85,7 +89,11 @@ func (f *FuncRouter) SendMessageNotOss(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.Conversation().SendMessageNotOss, args)
 }
 
+<<<<<<< HEAD
 // SendMessageByBuffer sends a message where the content is provided in a byte buffer.
+=======
+// deprecated.
+>>>>>>> d74713c55cc187be0746ac422a46b86d681b54c0
 func (f *FuncRouter) SendMessageByBuffer(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.Conversation().SendMessageByBuffer, args)
 }

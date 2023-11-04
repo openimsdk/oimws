@@ -3,17 +3,17 @@ package conf
 var (
 	LenStackBuf = 4096
 
-	// log
+	// log.
 	LogLevel string
 	LogPath  string
 	LogFlag  int
 
-	// console
+	// console.
 	ConsolePort   int
 	ConsolePrompt string = "Leaf# "
 	ProfilePath   string
 
-	// cluster
+	// cluster.
 	ListenAddr      string
 	ConnAddrs       []string
 	PendingWriteNum int

@@ -1,9 +1,10 @@
 package network
 
 import (
-	log "github.com/xuexihuang/new_log15"
 	"sync"
 	"time"
+
+	log "github.com/xuexihuang/new_log15"
 
 	"github.com/gorilla/websocket"
 )
