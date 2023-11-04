@@ -3,10 +3,11 @@ package module
 import (
 	"encoding/json"
 	"errors"
-	"github.com/xuexihuang/new_gonet/common"
-	"github.com/xuexihuang/new_gonet/gate"
-	log "github.com/xuexihuang/new_log15"
 	"net/url"
+
+	"github.com/openim-sigs/oimws/common"
+	"github.com/openim-sigs/oimws/gate"
+	log "github.com/xuexihuang/new_log15"
 )
 
 type MActor interface {

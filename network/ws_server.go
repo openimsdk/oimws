@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/xuexihuang/new_gonet/common"
+	"github.com/openim-sigs/oimws/common"
 	log "github.com/xuexihuang/new_log15"
 
 	"github.com/gorilla/websocket"

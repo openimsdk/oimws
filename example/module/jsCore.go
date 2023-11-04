@@ -3,10 +3,11 @@ package module
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/openimsdk/openim-sdk-core/v3/pkg/utils"
 	"reflect"
 
-	"github.com/xuexihuang/new_gonet/example/core_func"
+	"github.com/openimsdk/openim-sdk-core/v3/pkg/utils"
+
+	"github.com/openim-sigs/oimws/example/core_func"
 )
 
 type JsCore struct {

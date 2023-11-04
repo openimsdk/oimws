@@ -1,6 +1,6 @@
 package network
 
-import "github.com/xuexihuang/new_gonet/common"
+import "github.com/openim-sigs/oimws/common"
 
 type Processor interface {
 	// must goroutine safe

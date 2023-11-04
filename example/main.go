@@ -3,16 +3,17 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/xuexihuang/new_gonet/example/core_func"
-	"github.com/xuexihuang/new_gonet/example/module"
-	"github.com/xuexihuang/new_gonet/gate"
-	"github.com/xuexihuang/new_gonet/network/tjson"
-	log "github.com/xuexihuang/new_log15"
 	"os"
 	"os/signal"
 	"sync"
 	"syscall"
 	"time"
+
+	"github.com/openim-sigs/oimws/example/core_func"
+	"github.com/openim-sigs/oimws/example/module"
+	"github.com/openim-sigs/oimws/gate"
+	"github.com/openim-sigs/oimws/network/tjson"
+	log "github.com/xuexihuang/new_log15"
 )
 
 var Processor = tjson.NewProcessor()

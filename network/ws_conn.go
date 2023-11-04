@@ -2,11 +2,12 @@ package network
 
 import (
 	"errors"
-	"github.com/gorilla/websocket"
-	"github.com/xuexihuang/new_gonet/common"
-	log "github.com/xuexihuang/new_log15"
 	"net"
 	"sync"
+
+	"github.com/gorilla/websocket"
+	"github.com/openim-sigs/oimws/common"
+	log "github.com/xuexihuang/new_log15"
 )
 
 type WebsocketConnSet map[*websocket.Conn]struct{}

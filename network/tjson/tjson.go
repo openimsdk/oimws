@@ -1,7 +1,7 @@
 package tjson
 
 import (
-	"github.com/xuexihuang/new_gonet/common"
+	"github.com/openim-sigs/oimws/common"
 )
 
 type Login struct {

@@ -1,8 +1,9 @@
 package network
 
 import (
-	"github.com/xuexihuang/new_gonet/common"
 	"net"
+
+	"github.com/openim-sigs/oimws/common"
 )
 
 type Conn interface {

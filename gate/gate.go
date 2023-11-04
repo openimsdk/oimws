@@ -1,12 +1,13 @@
 package gate
 
 import (
-	"github.com/xuexihuang/new_gonet/common"
-	"github.com/xuexihuang/new_gonet/network"
-	log "github.com/xuexihuang/new_log15"
 	"net"
 	"reflect"
 	"time"
+
+	"github.com/openim-sigs/oimws/common"
+	"github.com/openim-sigs/oimws/network"
+	log "github.com/xuexihuang/new_log15"
 )
 
 type Gate struct {

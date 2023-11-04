@@ -3,13 +3,14 @@ package module
 import (
 	"encoding/json"
 	"errors"
-	"github.com/xuexihuang/new_gonet/example/core_func"
 	"net/url"
 	"sync"
 	"time"
 
-	"github.com/xuexihuang/new_gonet/common"
-	"github.com/xuexihuang/new_gonet/gate"
+	"github.com/openim-sigs/oimws/example/core_func"
+
+	"github.com/openim-sigs/oimws/common"
+	"github.com/openim-sigs/oimws/gate"
 	log "github.com/xuexihuang/new_log15"
 )
 

@@ -1,4 +1,4 @@
-module github.com/xuexihuang/new_gonet
+module github.com
 
 go 1.19
 
