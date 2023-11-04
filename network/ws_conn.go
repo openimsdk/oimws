@@ -121,21 +121,15 @@ func (wsConn *WSConn) RemoteAddr() net.Addr {
 	return wsConn.conn.RemoteAddr()
 }
 
-<<<<<<< HEAD
 // ReadMsg reads a message from the websocket connection.(goroutine not safe)
-=======
 // goroutine not safe.
->>>>>>> d74713c55cc187be0746ac422a46b86d681b54c0
 func (wsConn *WSConn) ReadMsg() (int, []byte, error) {
 	nTye, b, err := wsConn.conn.ReadMessage()
 	return nTye, b, err
 }
 
-<<<<<<< HEAD
 // WriteMsg writes a message to the websocket connection.(Args must not be modified by the others goroutines)
-=======
 // args must not be modified by the others goroutines.
->>>>>>> d74713c55cc187be0746ac422a46b86d681b54c0
 func (wsConn *WSConn) WriteMsg(args *common.TWSData) error {
 	wsConn.Lock()
 	defer wsConn.Unlock()

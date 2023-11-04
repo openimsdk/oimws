@@ -30,7 +30,7 @@ type ParamStru struct {
 	OrgName   string
 }
 
-// GetOperationID parses the URL to get the OperationID parameter
+// GetOperationID parses the URL to get the OperationID parameter.
 func (p *ParamStru) GetOperationID() string {
 	u, err := url.Parse(p.UrlPath)
 	if err != nil {
@@ -39,7 +39,7 @@ func (p *ParamStru) GetOperationID() string {
 	return u.Query().Get(OperationID)
 }
 
-// GetPlatformID parses the URL to get the PlatformID parameter
+// GetPlatformID parses the URL to get the PlatformID parameter.
 func (p *ParamStru) GetPlatformID() string {
 	u, err := url.Parse(p.UrlPath)
 	if err != nil {
@@ -64,7 +64,7 @@ type MActorIm struct {
 	isclosing       bool
 }
 
-// NewMActor creates a new actor instance
+// NewMActor creates a new actor instance.
 func NewMActor(a gate.Agent, sessionId string, appParam *ParamStru) (MActor, error) {
 	ret := &MActorIm{param: appParam, a: a, SessionId: sessionId, closeChan: make(chan bool, 1), nChanLen: 10, ReceivMsgChan: make(chan interface{}, 10), isclosing: false,
 		heartTicker: time.NewTicker(100 * time.Second), heartFlag: false, heartTickerSend: time.NewTicker(100 * time.Second)}
@@ -75,7 +75,7 @@ func NewMActor(a gate.Agent, sessionId string, appParam *ParamStru) (MActor, err
 	return ret, nil
 }
 
-// run contains the main loop for the actor, handling various operations
+// run contains the main loop for the actor, handling various operations.
 func (actor *MActorIm) run() {
 	actor.wg.Add(1)
 	defer common.TryRecoverAndDebugPrint()
@@ -117,7 +117,7 @@ func (actor *MActorIm) run() {
 	}
 }
 
-// Destroy gracefully shuts down the actor
+// Destroy gracefully shuts down the actor.
 func (actor *MActorIm) Destroy() {
 	actor.closeChan <- true
 	actor.wg.Wait()
@@ -125,7 +125,7 @@ func (actor *MActorIm) Destroy() {
 	log.Info("退出MQPushActorIm", "sessionId", actor.SessionId)
 }
 
-// ProcessRecvMsg processes received messages and sends them to the ReceivMsgChan
+// ProcessRecvMsg processes received messages and sends them to the ReceivMsgChan.
 func (actor *MActorIm) ProcessRecvMsg(msg interface{}) error {
 	if len(actor.ReceivMsgChan) == actor.nChanLen {
 		log.Error("send channel is full", "sessionId", actor.SessionId)
@@ -135,7 +135,7 @@ func (actor *MActorIm) ProcessRecvMsg(msg interface{}) error {
 	return nil
 }
 
-// doRecvPro processes the message received from the network layer
+// doRecvPro processes the message received from the network layer.
 func (actor *MActorIm) doRecvPro(data *common.TWSData) error {
 	log.Info("message come here", "data", data)
 	if data.MsgType == common.MessageBinary {
@@ -155,14 +155,14 @@ func (actor *MActorIm) doRecvPro(data *common.TWSData) error {
 	return nil
 }
 
-// sendResp sends a response message to the WebSocket client
+// sendResp sends a response message to the WebSocket client.
 func (actor *MActorIm) sendResp(res *ResponseSt) {
 	//heart := []byte("ping")
 	resSend := &common.TWSData{MsgType: common.PingMessage, Msg: nil}
 	actor.a.WriteMsg(resSend)
 }
 
-// sendEventResp sends an event response to the WebSocket client
+// sendEventResp sends an event response to the WebSocket client.
 func (actor *MActorIm) sendEventResp(res *core_func.EventData) {
 	resb, _ := json.Marshal(res)
 	resSend := &common.TWSData{MsgType: common.MessageBinary, Msg: resb}
