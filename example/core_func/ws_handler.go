@@ -37,11 +37,13 @@ type FuncRouter struct {
 	sessionId   string
 }
 
+// NewFuncRouter creates a new instance of FuncRouter with the provided session id and channel for event data.
 func NewFuncRouter(respMessagesChan chan *EventData, sessionId string) *FuncRouter {
 	return &FuncRouter{respMessage: NewRespMessage(respMessagesChan),
 		userForSDK: new(open_im_sdk.LoginMgr), sessionId: sessionId}
 }
 
+// call is an asynchronous wrapper that invokes SDK functions and handles their responses.
 func (f *FuncRouter) call(operationID string, fn any, args ...any) {
 	go func() {
 		log.ZInfo(context.Background(), "opid", "opid", operationID)
@@ -88,6 +90,7 @@ func CheckResourceLoad(uSDK *open_im_sdk.LoginMgr, funcName string) error {
 	return nil
 }
 
+// call_ is the internal function that actually invokes the SDK functions.
 func (f *FuncRouter) call_(operationID string, fn any, funcName string, args ...any) (res any, err error) {
 	defer func() {
 		if r := recover(); r != nil {

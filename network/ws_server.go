@@ -38,6 +38,7 @@ type WSHandler struct {
 	wg              sync.WaitGroup
 }
 
+// ServeHTTP handles HTTP requests and upgrades them to WebSocket if the request is valid.
 func (handler *WSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	defer common.TryRecoverAndDebugPrint()
 	if r.Method != "GET" {
@@ -98,6 +99,7 @@ func (handler *WSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	agent.OnClose()
 }
 
+// Start initializes and starts the WebSocket server.
 func (server *WSServer) Start() {
 	ln, err := net.Listen("tcp", server.Addr)
 	if err != nil {
@@ -169,6 +171,7 @@ func (server *WSServer) Start() {
 	go httpServer.Serve(ln)
 }
 
+// Close shuts down the WebSocket server and closes all active connections.
 func (server *WSServer) Close() {
 	server.ln.Close()
 

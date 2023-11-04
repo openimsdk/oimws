@@ -11,10 +11,12 @@ type RespMessage struct {
 	respMessagesChan chan *EventData
 }
 
+// NewRespMessage creates a new instance of RespMessage with the given channel.
 func NewRespMessage(respMessagesChan chan *EventData) *RespMessage {
 	return &RespMessage{respMessagesChan: respMessagesChan}
 }
 
+// sendOnSuccessResp sends a success response message for a given operation.
 func (r *RespMessage) sendOnSuccessResp(operationID, event string, data string) {
 	r.respMessagesChan <- &EventData{
 		Event:       event,
@@ -23,6 +25,7 @@ func (r *RespMessage) sendOnSuccessResp(operationID, event string, data string) 
 	}
 }
 
+// sendOnErrorResp sends an error response message for a given operation.
 func (r *RespMessage) sendOnErrorResp(operationID, event string, err error) {
 	resp := &EventData{
 		Event:       event,

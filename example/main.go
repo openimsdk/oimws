@@ -24,6 +24,7 @@ type GateNet struct {
 	Wg       sync.WaitGroup
 }
 
+// Initsever initializes a new GateNet instance with the given WebSocket port and default configurations.
 func Initsever(wsPort int) *GateNet {
 	gatenet := new(GateNet)
 	gatenet.Gate = &gate.Gate{
@@ -41,26 +42,32 @@ func Initsever(wsPort int) *GateNet {
 	return gatenet
 }
 
+// SetMsgFun sets the functions that will be called on new connection, disconnection, and data reception events.
 func (gt *GateNet) SetMsgFun(Fun1 func(gate.Agent), Fun2 func(gate.Agent), Fun3 func(interface{}, gate.Agent)) {
 	gt.Gate.SetFun(Fun1, Fun2, Fun3)
 }
+
+// Runloop starts the server loop in a new goroutine and ensures the WaitGroup is properly managed.
 func (gt *GateNet) Runloop() {
 	gt.Wg.Add(1)
 	gt.Run(gt.CloseSig)
 	gt.Wg.Done()
 }
+
+// CloseGate sends a signal to close the server and waits for all goroutines to finish before calling OnDestroy.
 func (gt *GateNet) CloseGate() {
 	gt.CloseSig <- true
 	gt.Wg.Wait()
 	gt.Gate.OnDestroy()
 }
 
+// The main function sets up the WebSocket server and handles graceful shutdowns.
 func main() {
 	var sdkWsPort, logLevel *int
 	var openIMWsAddress, openIMApiAddress, openIMDbDir *string
-	openIMApiAddress = flag.String("openIM_api_address", "http://14.29.213.197:50002",
+	openIMApiAddress = flag.String("openIM_api_address", "http://127.0.0.1:10002",
 		"openIM api listening address")
-	openIMWsAddress = flag.String("openIM_ws_address", "ws://14.29.213.197:50001",
+	openIMWsAddress = flag.String("openIM_ws_address", "http://127.0.0.1:10001",
 		"openIM ws listening address")
 	sdkWsPort = flag.Int("sdk_ws_port", 10003, "openIMSDK ws listening port")
 	logLevel = flag.Int("openIM_log_level", 6, "control log output level")
@@ -72,8 +79,8 @@ func main() {
 	core_func.Config.LogLevel = uint32(*logLevel)
 	core_func.Config.IsLogStandardOutput = true
 	log.SetOutLevel(log.LvlInfo)
-	fmt.Println("客户端启动....")
-	log.Info("客户端启动....")
+	fmt.Println("Client starting....")
+	log.Info("Client starting....")
 	gatenet := Initsever(*sdkWsPort)
 	gatenet.SetMsgFun(module.NewAgent, module.CloseAgent, module.DataRecv)
 	go gatenet.Runloop()

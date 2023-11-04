@@ -25,6 +25,7 @@ type WSConn struct {
 	CookieVal string
 }
 
+// newWSConn initializes a new WSConn object.
 func newWSConn(conn *websocket.Conn, pendingWriteNum int, maxMsgLen uint32, appurl string, cookieVal string) *WSConn {
 	wsConn := new(WSConn)
 	wsConn.conn = conn
@@ -67,6 +68,7 @@ func newWSConn(conn *websocket.Conn, pendingWriteNum int, maxMsgLen uint32, appu
 	return wsConn
 }
 
+// doDestroy forcefully closes the connection without waiting for pending writes.
 func (wsConn *WSConn) doDestroy() {
 	wsConn.conn.UnderlyingConn().(*net.TCPConn).SetLinger(0)
 	wsConn.conn.Close()
@@ -77,6 +79,7 @@ func (wsConn *WSConn) doDestroy() {
 	}
 }
 
+// Destroy cleanly closes the connection.
 func (wsConn *WSConn) Destroy() {
 	wsConn.Lock()
 	defer wsConn.Unlock()
@@ -84,6 +87,7 @@ func (wsConn *WSConn) Destroy() {
 	wsConn.doDestroy()
 }
 
+// Close initiates a graceful shutdown of the connection.
 func (wsConn *WSConn) Close() {
 	wsConn.Lock()
 	defer wsConn.Unlock()
@@ -95,6 +99,7 @@ func (wsConn *WSConn) Close() {
 	wsConn.closeFlag = true
 }
 
+// doWrite enqueues a message for writing to the websocket connection.
 func (wsConn *WSConn) doWrite(b *common.TWSData) {
 	if len(wsConn.writeChan) == cap(wsConn.writeChan) {
 		//log.Debug("close conn: channel full")
@@ -106,21 +111,23 @@ func (wsConn *WSConn) doWrite(b *common.TWSData) {
 	wsConn.writeChan <- b
 }
 
+// LocalAddr returns the local network address.
 func (wsConn *WSConn) LocalAddr() net.Addr {
 	return wsConn.conn.LocalAddr()
 }
 
+// RemoteAddr returns the remote network address.
 func (wsConn *WSConn) RemoteAddr() net.Addr {
 	return wsConn.conn.RemoteAddr()
 }
 
-// goroutine not safe
+// ReadMsg reads a message from the websocket connection.(goroutine not safe)
 func (wsConn *WSConn) ReadMsg() (int, []byte, error) {
 	nTye, b, err := wsConn.conn.ReadMessage()
 	return nTye, b, err
 }
 
-// args must not be modified by the others goroutines
+// WriteMsg writes a message to the websocket connection.(Args must not be modified by the others goroutines)
 func (wsConn *WSConn) WriteMsg(args *common.TWSData) error {
 	wsConn.Lock()
 	defer wsConn.Unlock()

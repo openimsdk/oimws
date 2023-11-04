@@ -33,12 +33,14 @@ type Gate struct {
 	FuncMsgRecv   func(interface{}, Agent)
 }
 
+// SetFun sets the functions for handling new agents, closing agents, and receiving messages.
 func (gate *Gate) SetFun(Fun1 func(Agent), Fun2 func(Agent), Fun3 func(interface{}, Agent)) {
 	gate.FunNewAgent = Fun1
 	gate.FunCloseAgent = Fun2
 	gate.FuncMsgRecv = Fun3
 }
 
+// Run starts the gate service and listens for incoming connections.
 func (gate *Gate) Run(closeSig chan bool) {
 	var wsServer *network.WSServer
 	if gate.WSAddr != "" {
@@ -105,6 +107,7 @@ type agent struct {
 	userData interface{}
 }
 
+// Run processes incoming messages in a loop.
 func (a *agent) Run() {
 	defer common.TryRecoverAndDebugPrint()
 	for {
@@ -132,6 +135,7 @@ func (a *agent) Run() {
 	}
 }
 
+// OnClose is called when the agent's connection is closed.
 func (a *agent) OnClose() {
 
 	/*if a.gate.AgentChanRPC != nil {
@@ -143,6 +147,7 @@ func (a *agent) OnClose() {
 	a.gate.FunCloseAgent(a)
 }
 
+// WriteMsg sends a message to the client.
 func (a *agent) WriteMsg(msg interface{}) {
 	if a.gate.Processor != nil {
 		data, err := a.gate.Processor.Marshal(msg)

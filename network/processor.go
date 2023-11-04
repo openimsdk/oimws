@@ -10,6 +10,6 @@ type Processor interface {
 	UnmarshalMul(nType int, data []byte) (interface{}, error)
 	// must goroutine safe
 	Marshal(msg interface{}) (*common.TWSData, error)
-	// 是否使用压解包模式
+	// Whether to use packet mode for packing/unpacking
 	UsePacketMode() bool
 }

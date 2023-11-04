@@ -23,14 +23,12 @@ type Req struct {
 	Batch       int    `json:"batchMsg"`
 }
 type JsInterface interface {
-	//recv消息
 	RecvMsg() chan interface{} //todo your sturct,error or response
-	//send消息
 	SendMsg(interface{}) error
-	//关闭循环，并释放资源
 	Destroy()
 }
 
+// NewJsCore creates a new JsCore instance.
 func NewJsCore(para *ParamStru, sessionId string) *JsCore {
 	respChan := make(chan *core_func.EventData, 100)
 	funcRouter := core_func.NewFuncRouter(respChan, sessionId)
@@ -38,10 +36,13 @@ func NewJsCore(para *ParamStru, sessionId string) *JsCore {
 	funcRouter.InitSDK(para.GetOperationID(), para.GetPlatformID())
 	return &JsCore{RespMessagesChan: respChan, funcRouter: funcRouter}
 }
+
+// RecvMsg returns the channel to receive messages.
 func (core *JsCore) RecvMsg() chan *core_func.EventData {
 	return core.RespMessagesChan
 }
 
+// SendMsg processes the incoming request and calls the corresponding method.
 func (core *JsCore) SendMsg(req *Req) error {
 	fmt.Println("method is valid", "data=", req)
 	methodValue := reflect.ValueOf(core.funcRouter).MethodByName(req.ReqFuncName)
@@ -63,6 +64,8 @@ func (core *JsCore) SendMsg(req *Req) error {
 	methodValue.Call(argsValue)
 	return nil
 }
+
+// Destroy performs cleanup when the core is no longer needed.
 func (core *JsCore) Destroy() {
 	core.funcRouter.Logout("socket close")
 }

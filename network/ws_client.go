@@ -24,6 +24,7 @@ type WSClient struct {
 	closeFlag        bool
 }
 
+// Start initializes and starts the WebSocket client.
 func (client *WSClient) Start() {
 	client.init()
 
@@ -33,6 +34,7 @@ func (client *WSClient) Start() {
 	}
 }
 
+// init prepares the client by setting default values and validating settings.
 func (client *WSClient) init() {
 	client.Lock()
 	defer client.Unlock()
@@ -78,6 +80,7 @@ func (client *WSClient) init() {
 	}
 }
 
+// dial creates a new WebSocket connection.
 func (client *WSClient) dial() *websocket.Conn {
 	for {
 		conn, _, err := client.dialer.Dial(client.Addr, nil)
@@ -92,6 +95,7 @@ func (client *WSClient) dial() *websocket.Conn {
 	}
 }
 
+// connect handles the connection lifecycle.
 func (client *WSClient) connect() {
 	defer client.wg.Done()
 
@@ -128,6 +132,7 @@ reconnect:
 	}
 }
 
+// Close initiates the shutdown process for the client.
 func (client *WSClient) Close() {
 	client.Lock()
 	client.closeFlag = true
