@@ -25,7 +25,6 @@ type TWSData struct {
 	Msg     []byte // The actual message data in bytes.
 }
 
-
 const (
 	// MessageText is for UTF-8 encoded text messages like JSON.
 	MessageText = iota + 1

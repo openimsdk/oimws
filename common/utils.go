@@ -1,12 +1,13 @@
 package common
 
 import (
+	"runtime/debug"
+
 	"github.com/bwmarrin/snowflake"
 	log "github.com/xuexihuang/new_log15"
-	"runtime/debug"
 )
 
-// Method used to capture panic and print stack information
+// Method used to capture panic and print stack information.
 func TryRecoverAndDebugPrint() {
 	errs := recover()
 	if errs == nil {

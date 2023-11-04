@@ -397,7 +397,7 @@ func (sc *SignalingCallback) OnInviteeRejectedByOtherDevice(rejectedData string)
 	sc.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), rejectedData)
 }
 
-// OnInvitationCancelled is called when an invitation is cancelled.
+// OnInvitationCancelled is called when an invitation is canceled.
 func (sc *SignalingCallback) OnInvitationCancelled(cancelledData string) {
 	sc.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), cancelledData)
 }

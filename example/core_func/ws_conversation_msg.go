@@ -28,7 +28,7 @@ func (f *FuncRouter) HideConversation(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.Conversation().HideConversation, args...)
 }
 
-// deprecated
+// deprecated.
 func (f *FuncRouter) GetConversationRecvMessageOpt(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.Conversation().GetConversationRecvMessageOpt, args...)
 }
@@ -68,7 +68,7 @@ func (f *FuncRouter) SendMessageNotOss(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.Conversation().SendMessageNotOss, args)
 }
 
-// deprecated
+// deprecated.
 func (f *FuncRouter) SendMessageByBuffer(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.Conversation().SendMessageByBuffer, args)
 }
