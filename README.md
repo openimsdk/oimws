@@ -5,9 +5,7 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/openim-sigs/oimws)](https://goreportcard.com/report/github.com/openim-sigs/oimws)
 [![GoDoc](https://godoc.org/github.com/openim-sigs/oimws?status.svg)](https://godoc.org/github.com/openim-sigs/oimws)
 
-> :notes: Minimalist websocket framework for Go.
-
-OIMWS (OpenIM WebSocket Service) is a high-performance, scalable WebSocket framework designed specifically for building instant messaging (IM) systems. Harnessing the concurrent capabilities of Go and the real-time communication provided by WebSocket protocol, OIMWS offers a robust backend solution to support modern instant communication needs, ranging from basic message transit to complex session management and network optimization.
+> :notes: OIMWS (OpenIM WebSocket Service) is a high-performance, scalable WebSocket framework designed specifically for building instant messaging (IM) systems. Harnessing the concurrent capabilities of Go and the real-time communication provided by WebSocket protocol, OIMWS offers a robust backend solution to support modern instant communication needs, ranging from basic message transit to complex session management and network optimization.
 
 ## Features 🚀
 
