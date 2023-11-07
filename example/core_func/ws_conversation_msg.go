@@ -76,6 +76,131 @@ func (f *FuncRouter) GetTotalUnreadMsgCount(operationID string) {
 	f.call(operationID, f.userForSDK.Conversation().GetTotalUnreadMsgCount)
 }
 
+// GetAtAllTag retrieves the tag that represents mentioning all members in a conversation.
+func (f *FuncRouter) GetAtAllTag(operationID string) {
+	f.call(operationID, f.userForSDK.Conversation().GetAtAllTag)
+}
+
+// CreateAdvancedTextMessage creates a text message with advanced features such as at-mentions and URLs.
+func (f *FuncRouter) CreateAdvancedTextMessage(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateAdvancedTextMessage, args...)
+}
+
+// CreateTextAtMessage creates a message that includes a mention of a specific user.
+func (f *FuncRouter) CreateTextAtMessage(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateTextAtMessage, args...)
+}
+
+// CreateTextMessage creates a simple text message.
+func (f *FuncRouter) CreateTextMessage(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateTextMessage, args...)
+}
+
+// CreateLocationMessage creates a message with location information.
+func (f *FuncRouter) CreateLocationMessage(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateLocationMessage, args...)
+}
+
+// CreateCustomMessage creates a message with custom content.
+func (f *FuncRouter) CreateCustomMessage(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateCustomMessage, args...)
+}
+
+// CreateQuoteMessage creates a message that quotes another message.
+func (f *FuncRouter) CreateQuoteMessage(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateQuoteMessage, args...)
+}
+
+// CreateAdvancedQuoteMessage creates a message that quotes another message with additional options.
+func (f *FuncRouter) CreateAdvancedQuoteMessage(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateAdvancedQuoteMessage, args...)
+}
+
+// CreateCardMessage creates a card-style message, often used in bots for structured data display.
+func (f *FuncRouter) CreateCardMessage(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateCardMessage, args...)
+}
+
+// CreateVideoMessageFromFullPath creates a video message from a file with a full path.
+func (f *FuncRouter) CreateVideoMessageFromFullPath(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateVideoMessageFromFullPath, args...)
+}
+
+// CreateImageMessageFromFullPath creates an image message from a file with a full path.
+func (f *FuncRouter) CreateImageMessageFromFullPath(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateImageMessageFromFullPath, args...)
+}
+
+// CreateSoundMessageFromFullPath creates a sound message from a file with a full path.
+func (f *FuncRouter) CreateSoundMessageFromFullPath(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateSoundMessageFromFullPath, args...)
+}
+
+// CreateFileMessageFromFullPath creates a file message from a file with a full path.
+func (f *FuncRouter) CreateFileMessageFromFullPath(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateFileMessageFromFullPath, args...)
+}
+
+// CreateImageMessage creates an image message.
+func (f *FuncRouter) CreateImageMessage(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateImageMessage, args...)
+}
+
+// CreateImageMessageByURL creates an image message from an image URL.
+func (f *FuncRouter) CreateImageMessageByURL(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateImageMessageByURL, args...)
+}
+
+// CreateSoundMessageByURL creates a sound message from a sound URL.
+func (f *FuncRouter) CreateSoundMessageByURL(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateSoundMessageByURL, args...)
+}
+
+// CreateSoundMessage creates a sound message.
+func (f *FuncRouter) CreateSoundMessage(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateSoundMessage, args...)
+}
+
+// CreateVideoMessageByURL creates a video message from a video URL.
+func (f *FuncRouter) CreateVideoMessageByURL(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateVideoMessageByURL, args...)
+}
+
+// CreateVideoMessage creates a video message.
+func (f *FuncRouter) CreateVideoMessage(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateVideoMessage, args...)
+}
+
+// CreateFileMessageByURL creates a file message from a specified URL.
+func (f *FuncRouter) CreateFileMessageByURL(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateFileMessageByURL, args...)
+}
+
+// CreateFileMessage creates a file message.
+func (f *FuncRouter) CreateFileMessage(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateFileMessage, args...)
+}
+
+// CreateMergerMessage creates a message that merges multiple messages into one composite message.
+func (f *FuncRouter) CreateMergerMessage(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateMergerMessage, args...)
+}
+
+// CreateFaceMessage creates a message with a facial expression or emoji.
+func (f *FuncRouter) CreateFaceMessage(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateFaceMessage, args...)
+}
+
+// CreateForwardMessage creates a message that forwards content from one conversation to another.
+func (f *FuncRouter) CreateForwardMessage(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().CreateForwardMessage, args...)
+}
+
+// GetConversationIDBySessionType retrieves the conversation ID based on the session type.
+func (f *FuncRouter) GetConversationIDBySessionType(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().GetConversationIDBySessionType, args...)
+}
+
 // SendMessage sends a message within a conversation.
 func (f *FuncRouter) SendMessage(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.Conversation().SendMessage, args)
