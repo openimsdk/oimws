@@ -68,7 +68,13 @@ func (handler *WSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	conn.SetReadLimit(int64(handler.maxMsgLen))
-
+	_ = conn.SetReadDeadline(time.Now().Add(30 * time.Second))
+	conn.SetPongHandler(func(appData string) error {
+		conn.SetReadDeadline(time.Now().Add(30 * time.Second))
+		log.Info("js replying with a pong packet.")
+		return nil
+	})
+	log.Error("test1")
 	handler.wg.Add(1)
 	defer handler.wg.Done()
 
@@ -78,16 +84,20 @@ func (handler *WSHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		conn.Close()
 		return
 	}
+	log.Error("test2")
 	if len(handler.conns) >= handler.maxConnNum {
 		handler.mutexConns.Unlock()
 		conn.Close()
 		log.Error("too many connections")
 		return
 	}
+	log.Error("test3")
 	handler.conns[conn] = struct{}{}
 	handler.mutexConns.Unlock()
 
+	log.Error("test4")
 	wsConn := newWSConn(conn, handler.pendingWriteNum, handler.maxMsgLen, r.URL.String(), cookieVal)
+	log.Error("tes5")
 	agent := handler.newAgent(wsConn)
 	agent.Run()
 

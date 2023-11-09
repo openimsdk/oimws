@@ -59,6 +59,9 @@ func (core *JsCore) SendMsg(req *Req) error {
 	args = append([]any{req.OperationID}, args...)
 	argsValue := make([]reflect.Value, len(args))
 	for i, arg := range args {
+		if arg == nil {
+			return utils.Wrap(fmt.Errorf("args[%d] is not nil", i), "args has nil")
+		}
 		argsValue[i] = reflect.ValueOf(arg)
 	}
 	methodValue.Call(argsValue)

@@ -17,6 +17,7 @@ type TAgentUserData struct {
 	CookieVal string      // The value of the cookie stored for the user.
 	AppString string      // A string related to the application, possibly containing user-specific settings or states.
 	ProxyBody interface{} // A generic interface to hold different types of data for proxy communication.
+	UserId    string
 }
 
 // TWSData defines the structure for WebSocket data transmission.

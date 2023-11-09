@@ -411,3 +411,28 @@ func (sc *SignalingCallback) OnInvitationTimeout(timeoutData string) {
 func (sc *SignalingCallback) OnHangUp(hangUpData string) {
 	sc.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), hangUpData)
 }
+
+type SendMessageCallback struct {
+	respMessage *RespMessage
+	eventName   string
+}
+
+func NewSendMessageCallback(eventName string, respMessage *RespMessage) *SendMessageCallback {
+	return &SendMessageCallback{eventName: eventName, respMessage: respMessage}
+
+}
+
+// OnError is called when a message fails to send.
+func (s *SendMessageCallback) OnError(errCode int32, errMsg string) {
+
+}
+
+// OnSuccess is called when a message is successfully sent.
+func (s *SendMessageCallback) OnSuccess(data string) {
+
+}
+
+// OnProgress is called when a message is being sent.
+func (s *SendMessageCallback) OnProgress(_ int) {
+
+}

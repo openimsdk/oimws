@@ -11,17 +11,19 @@ const (
 )
 
 type ResponseSt struct {
-	Type         string `json:"type"`    //"response" or "mqMessage" or "heartConfig"
-	Cmd          string `json:"cmd"`     //"connect" "subscribe" "unsubscribe"
-	Success      bool   `json:"success"` //
-	ErrMsg       string `json:"errMsg"`
-	RequestId    string `json:"requestId"`
-	Topic        string `json:"topic"`
-	Extra        string `json:"extra"`
-	MsgTimeStamp int64  `json:"msgTimeStamp"`
-	MsgSeqId     int64  `json:"msgSeqId"`
-	Data         string `json:"data"`
-	Rate         int64  `json:"rate"`
+	Type         string   `json:"type"`    //"response" or "mqMessage" or "heartConfig"
+	Cmd          string   `json:"cmd"`     //"connect" "subscribe" "unsubscribe"
+	Success      bool     `json:"success"` //
+	ErrMsg       string   `json:"errMsg"`
+	UserId       []string `json:"userIds"`
+	Duration     int64    `json:"duration"` // progress run time ,seconds
+	RequestId    string   `json:"requestId"`
+	Topic        string   `json:"topic"`
+	Extra        string   `json:"extra"`
+	MsgTimeStamp int64    `json:"msgTimeStamp"`
+	MsgSeqId     int64    `json:"msgSeqId"`
+	Data         string   `json:"data"`
+	Rate         int64    `json:"rate"`
 }
 
 type RequestSt struct {

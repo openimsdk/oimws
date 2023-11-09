@@ -6,21 +6,18 @@ require (
 	github.com/OpenIMSDK/tools v0.0.16
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/gorilla/websocket v1.5.0
-	github.com/openimsdk/openim-sdk-core/v3 v3.3.1-rc.6
+	github.com/openimsdk/openim-sdk-core/v3 v3.3.1-rc.7
 	github.com/stretchr/testify v1.8.3
 	github.com/xuexihuang/new_log15 v1.0.0
 )
 
 require (
-	github.com/antonfisher/nested-logrus-formatter v1.3.1 // indirect
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/jinzhu/copier v0.3.5 // indirect
 	github.com/klauspost/compress v1.16.5 // indirect
 	github.com/mattn/go-sqlite3 v1.14.12 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 // indirect
-	github.com/rifflock/lfshook v0.0.0-20180920164130-b9218ef580f5 // indirect
-	github.com/sirupsen/logrus v1.9.2 // indirect
 	github.com/tencentyun/qcloud-cos-sts-sdk v0.0.0-20220106031843-2efeb10ca2f6 // indirect
 	golang.org/x/image v0.9.0 // indirect
 	golang.org/x/net v0.11.0 // indirect

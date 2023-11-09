@@ -27,17 +27,22 @@ type WSConn struct {
 
 // newWSConn initializes a new WSConn object.
 func newWSConn(conn *websocket.Conn, pendingWriteNum int, maxMsgLen uint32, appurl string, cookieVal string) *WSConn {
+	log.Error("test4.1", pendingWriteNum)
 	wsConn := new(WSConn)
 	wsConn.conn = conn
 	wsConn.writeChan = make(chan *common.TWSData, pendingWriteNum)
+	log.Error("test4.1.1", pendingWriteNum)
 	wsConn.maxMsgLen = maxMsgLen
 	/////////////////////////////生成唯一sessionid。
 	var sessionID string
-	sessionID = common.GetRandomSessionId()
+	log.Error("test4.1.2", pendingWriteNum)
+	//sessionID = common.GetRandomSessionId()
+
+	log.Error("test4.1.3", pendingWriteNum)
 	wsConn.SessionId = sessionID
 	wsConn.AppURL = appurl
 	wsConn.CookieVal = cookieVal
-
+	log.Error("test4.2")
 	go func() {
 		for b := range wsConn.writeChan {
 			if b == nil {
@@ -64,7 +69,7 @@ func newWSConn(conn *websocket.Conn, pendingWriteNum int, maxMsgLen uint32, appu
 		wsConn.closeFlag = true
 		wsConn.Unlock()
 	}()
-
+	log.Error("test4.3")
 	return wsConn
 }
 

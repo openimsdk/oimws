@@ -203,17 +203,17 @@ func (f *FuncRouter) GetConversationIDBySessionType(operationID string, args ...
 
 // SendMessage sends a message within a conversation.
 func (f *FuncRouter) SendMessage(operationID string, args ...any) {
-	f.call(operationID, f.userForSDK.Conversation().SendMessage, args)
+	f.messageCall(operationID, f.userForSDK.Conversation().SendMessage, args...)
 }
 
 // SendMessageNotOss sends a message without using an object storage service for any attachments.
 func (f *FuncRouter) SendMessageNotOss(operationID string, args ...any) {
-	f.call(operationID, f.userForSDK.Conversation().SendMessageNotOss, args)
+	f.messageCall(operationID, f.userForSDK.Conversation().SendMessageNotOss, args...)
 }
 
 // SendMessageByBuffer sends a message using a buffer.
 func (f *FuncRouter) SendMessageByBuffer(operationID string, args ...any) {
-	f.call(operationID, f.userForSDK.Conversation().SendMessageByBuffer, args)
+	f.messageCall(operationID, f.userForSDK.Conversation().SendMessageByBuffer, args...)
 }
 
 // FindMessageList retrieves a list of messages based on search criteria.
