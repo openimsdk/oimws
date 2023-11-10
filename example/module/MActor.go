@@ -131,8 +131,8 @@ func (actor *MActorIm) run() {
 			data := recvData.(*common.TWSData)
 			_ = actor.doRecvPro(data)
 		case resp := <-actor.mJsCore.RecvMsg():
+			actor.sendEventResp(resp)
 			if resp.Event == LogoutName {
-				actor.sendEventResp(resp)
 				actor.isclosing = true
 				actor.a.Destroy()
 			}
