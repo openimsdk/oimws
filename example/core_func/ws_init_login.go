@@ -101,5 +101,6 @@ func (f *FuncRouter) setAllListener() {
 	f.userForSDK.SetUserListener(NewUserCallback(f.respMessage))
 	f.userForSDK.SetAdvancedMsgListener(NewAdvancedMsgCallback(f.respMessage))
 	f.userForSDK.SetFriendListener(NewFriendCallback(f.respMessage))
+	f.userForSDK.SetBatchMsgListener(NewBatchMessageCallback(f.respMessage))
 
 }
