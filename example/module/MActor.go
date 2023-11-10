@@ -5,7 +5,9 @@ import (
 	"encoding/json"
 	"errors"
 	"net/url"
+	"runtime"
 	"sync"
+	"sync/atomic"
 	"time"
 
 	"github.com/openim-sigs/oimws/example/core_func"
@@ -21,6 +23,9 @@ const (
 	PlatformID  = "platformID"
 )
 const ProtocolError = "Protocol Error"
+const DisconnectGCLimit = 100
+
+var disConnectNum atomic.Int64
 
 type ParamStru struct {
 	UrlPath   string
@@ -108,6 +113,10 @@ func (actor *MActorIm) run() {
 			if !actor.isReleasedJscore {
 				actor.mJsCore.Destroy()
 			}
+			if disConnectNum.Add(1) > DisconnectGCLimit {
+				runtime.GC()
+				disConnectNum.Store(0)
+			}
 			return
 		case resChan := <-actor.releaseResChan:
 			log.Info("收到释放资源通道消息")
@@ -122,13 +131,11 @@ func (actor *MActorIm) run() {
 			data := recvData.(*common.TWSData)
 			_ = actor.doRecvPro(data)
 		case resp := <-actor.mJsCore.RecvMsg():
-			//if jscoredata.ErrCode != 0 {
-			//	actor.sendResp(nil) //todo send errormsg
-			//	actor.isclosing = true
-			//	actor.a.Destroy()
-			//} else {
-			actor.sendEventResp(resp) // todo send msg
-			//}
+			if resp.Event == LogoutName {
+				actor.sendEventResp(resp)
+				actor.isclosing = true
+				actor.a.Destroy()
+			}
 			//case <-actor.heartTicker.C:
 			//	if actor.heartFlag == true {
 			//		actor.heartFlag = false

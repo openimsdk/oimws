@@ -3,12 +3,11 @@ package module
 import (
 	"encoding/json"
 	"errors"
-	"net/url"
-	"sync"
-
 	"github.com/openim-sigs/oimws/common"
 	"github.com/openim-sigs/oimws/gate"
 	log "github.com/xuexihuang/new_log15"
+	"net/url"
+	"sync"
 )
 
 type JsActorMap struct {

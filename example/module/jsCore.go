@@ -10,6 +10,11 @@ import (
 	"github.com/openim-sigs/oimws/example/core_func"
 )
 
+const (
+	LogoutTips = "socket close"
+	LogoutName = "Logout"
+)
+
 type JsCore struct {
 	RespMessagesChan chan *core_func.EventData
 	funcRouter       *core_func.FuncRouter
@@ -70,5 +75,5 @@ func (core *JsCore) SendMsg(req *Req) error {
 
 // Destroy performs cleanup when the core is no longer needed.
 func (core *JsCore) Destroy() {
-	core.funcRouter.Logout("socket close")
+	core.funcRouter.Logout(LogoutTips)
 }

@@ -62,7 +62,6 @@ func (f *FuncRouter) UnInitSDK(operationID string) {
 // Login logs in a user using the provided arguments.
 func (f *FuncRouter) Login(operationID string, args ...any) {
 	f.setAllListener()
-	fmt.Println(operationID, "Login")
 	f.call(operationID, f.userForSDK.Login, args...)
 }
 
