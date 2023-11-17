@@ -3,7 +3,7 @@ module github.com/openim-sigs/oimws
 go 1.19
 
 require (
-	github.com/OpenIMSDK/tools v0.0.16
+	github.com/OpenIMSDK/tools v0.0.17
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/gorilla/websocket v1.5.0
 	github.com/openimsdk/openim-sdk-core/v3 v3.3.1-rc.7
