@@ -22,30 +22,24 @@
 
 ## Quick Start 🚗💨
 
+Clone the repository to your local machine:
 ```bash
-go get github.com/openim-sigs/oimws/example
+git clone https://github.com/openim-sigs/oimws.git
+cd oimws
 ```
 
-**Build example**
+**Build oimws**
 
 ```bash
 make build
 ```
 
-**Start example**
+**Start oimws**
 
 ```bash
 make start
 ```
 
-### Installation
-
-Clone the repository to your local machine:
-
-```bash
-git clone https://github.com/openim-sigs/oimws.git
-cd oimws
-```
 
 ### [Example](https://github.com/openim-sigs/oimws/tree/main/example)
 

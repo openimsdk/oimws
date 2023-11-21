@@ -7,7 +7,7 @@ import (
 
 	"github.com/openimsdk/openim-sdk-core/v3/pkg/utils"
 
-	"github.com/openim-sigs/oimws/example/core_func"
+	"github.com/openim-sigs/oimws/core_func"
 )
 
 const (

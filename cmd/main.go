@@ -9,9 +9,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/openim-sigs/oimws/example/core_func"
-	"github.com/openim-sigs/oimws/example/module"
+	"github.com/openim-sigs/oimws/core_func"
 	"github.com/openim-sigs/oimws/gate"
+	"github.com/openim-sigs/oimws/module"
 	"github.com/openim-sigs/oimws/network/tjson"
 	log "github.com/xuexihuang/new_log15"
 )
