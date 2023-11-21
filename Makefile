@@ -59,7 +59,7 @@ GIT_COMMIT:=$(shell git rev-parse HEAD)
 
 IMG ?= openim_chat:latest
 
-BUILDFILE = "./example/main.go"
+BUILDFILE = "./cmd/main.go"
 BUILDAPP = "$(OUTPUT_DIR)/"
 
 # Define the directory you want to copyright

@@ -10,7 +10,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/openim-sigs/oimws/example/core_func"
+	"github.com/openim-sigs/oimws/core_func"
 
 	"github.com/openim-sigs/oimws/common"
 	"github.com/openim-sigs/oimws/gate"
