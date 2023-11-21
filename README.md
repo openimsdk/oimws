@@ -51,11 +51,23 @@ An encapsulated framework within `jssdk` connecting to `openim-sdk-core`, provid
 the folders of oimws:
 
 cmd--------------  the main.go folder
+
+
 common-----------  common structures and functions, primarily used by the network frame
+
+
 core_func--------  Some functions encapsulate the interface for calling the JS SDK.
+
+
 gate-------------  network frame,functions for websocket
+
+
 module-----------  the module codes
+
+
 network----------  network frame
+
+
 
 ### Cluster solution(Consistent Hashing)
 
