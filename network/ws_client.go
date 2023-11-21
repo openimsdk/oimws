@@ -9,6 +9,10 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+const (
+	MaxMsgLen = 1024 * 1024 * 2
+)
+
 type WSClient struct {
 	sync.Mutex
 	Addr             string
@@ -56,7 +60,7 @@ func (client *WSClient) init() {
 		log.Info("invalid PendingWriteNum, reset", "client.PendingWriteNum", client.PendingWriteNum)
 	}
 	if client.MaxMsgLen <= 0 {
-		client.MaxMsgLen = 4096
+		client.MaxMsgLen = MaxMsgLen
 		//log.Release("invalid MaxMsgLen, reset to %v", client.MaxMsgLen)
 		log.Info("invalid MaxMsgLen, reset", "client.MaxMsgLen", client.MaxMsgLen)
 	}
