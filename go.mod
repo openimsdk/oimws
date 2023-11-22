@@ -3,11 +3,11 @@ module github.com/openim-sigs/oimws
 go 1.19
 
 require (
-	github.com/OpenIMSDK/tools v0.0.16
+	github.com/OpenIMSDK/tools v0.0.17
 	github.com/bwmarrin/snowflake v0.3.0
-	github.com/gorilla/websocket v1.5.0
-	github.com/openimsdk/openim-sdk-core/v3 v3.3.1-rc.7
-	github.com/stretchr/testify v1.8.3
+	github.com/gorilla/websocket v1.5.1
+	github.com/openimsdk/openim-sdk-core/v3 v3.4.1-alpha.2
+	github.com/stretchr/testify v1.8.4
 	github.com/xuexihuang/new_log15 v1.0.0
 )
 
@@ -20,8 +20,8 @@ require (
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 // indirect
 	github.com/tencentyun/qcloud-cos-sts-sdk v0.0.0-20220106031843-2efeb10ca2f6 // indirect
 	golang.org/x/image v0.9.0 // indirect
-	golang.org/x/net v0.11.0 // indirect
-	golang.org/x/text v0.11.0 // indirect
+	golang.org/x/net v0.17.0 // indirect
+	golang.org/x/text v0.13.0 // indirect
 	google.golang.org/grpc v1.56.2 // indirect
 	gorm.io/driver/sqlite v1.3.6 // indirect
 	nhooyr.io/websocket v1.8.7 // indirect
