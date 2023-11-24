@@ -56,6 +56,10 @@ func newWSConn(conn *websocket.Conn, pendingWriteNum int, maxMsgLen uint32, appu
 			} else if b.MsgType == common.PingMessage {
 				log.Info("ping message", "b", b)
 				err = conn.WriteMessage(websocket.PingMessage, b.Msg)
+			} else if b.MsgType == common.CloseMessage {
+				log.Info("close message", "b", b)
+				err = conn.WriteMessage(websocket.CloseMessage, b.Msg)
+				break
 			}
 			if err != nil {
 				log.Error("send message err", "err", err.Error())

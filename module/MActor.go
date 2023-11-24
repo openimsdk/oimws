@@ -133,8 +133,9 @@ func (actor *MActorIm) run() {
 		case resp := <-actor.mJsCore.RecvMsg():
 			actor.sendEventResp(resp)
 			if resp.Event == LogoutName {
+				actor.isReleasedJscore = true
 				actor.isclosing = true
-				actor.a.Destroy()
+				actor.sendClosingResp()
 			}
 			//case <-actor.heartTicker.C:
 			//	if actor.heartFlag == true {
@@ -211,5 +212,10 @@ func (actor *MActorIm) sendHeart() {
 func (actor *MActorIm) sendEventResp(res *core_func.EventData) {
 	resb, _ := json.Marshal(res)
 	resSend := &common.TWSData{MsgType: common.MessageBinary, Msg: resb}
+	actor.a.WriteMsg(resSend)
+}
+
+func (actor *MActorIm) sendClosingResp() {
+	resSend := &common.TWSData{MsgType: common.CloseMessage, Msg: nil}
 	actor.a.WriteMsg(resSend)
 }
