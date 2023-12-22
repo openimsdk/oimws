@@ -10,7 +10,7 @@ import (
 )
 
 const (
-	MaxMsgLen = 1024 * 1024 * 2
+	MaxMsgLen = 1024 * 1024 * 10
 )
 
 type WSClient struct {
