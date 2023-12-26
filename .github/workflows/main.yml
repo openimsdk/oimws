@@ -30,3 +30,11 @@ jobs:
 
     - name: Test
       run: make test
+
+  lock-threads:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lock Threads
+        uses: dessant/lock-threads@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
