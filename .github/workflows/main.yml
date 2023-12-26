@@ -30,3 +30,8 @@ jobs:
 
     - name: Test
       run: make test
+
+    - name: Lock threads
+      uses: dessant/lock-threads@v4
+      with:
+        github-token: ${{ secrets.NEW_GITHUB_TOKEN }}
