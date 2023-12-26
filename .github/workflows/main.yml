@@ -30,6 +30,8 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TARGET_LANGUAGE: 'eng'
+        # Ensure that the GITHUB_TOKEN secret is set in the repository settings.
+        # The token should be a GitHub personal access token with the necessary permissions for the GitHub action.
 
     - name: Lint
       run: make lint
