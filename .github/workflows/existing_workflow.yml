@@ -39,4 +39,4 @@ jobs:
     - name: Lock threads
       uses: dessant/lock-threads@v4
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: ${{ secrets.NEW_GITHUB_TOKEN }}
