@@ -1,0 +1,8 @@
+jobs:
+  lock:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lock threads
+        uses: dessant/lock-threads@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
