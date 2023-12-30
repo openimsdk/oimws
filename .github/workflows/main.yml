@@ -28,5 +28,18 @@ jobs:
     - name: Lint
       run: make lint
 
+    - name: Lock Threads
+      uses: dessant/lock-threads@v4
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Test
       run: make test
+
+  deploy:
+    name: Deploy
+    needs: [build]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy Application
+      run: make deploy
