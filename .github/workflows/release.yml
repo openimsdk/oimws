@@ -67,13 +67,12 @@ jobs:
           install-only: true
       - uses: cachix/install-nix-action@v23
         with:
-          github_access_token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
     #   - name: snapcraft-login
     #     if: startsWith(github.ref, 'refs/tags/v')
     #     run: snapcraft login --with <(echo "${{ secrets.SNAPCRAFT_TOKEN }}")
       # More assembly might be required: Docker logins, GPG, etc. It all depends
       # on your needs.
-
       - uses: goreleaser/goreleaser-action@v5
         with:
           # either 'goreleaser' (default) or 'goreleaser-pro':
@@ -81,7 +80,7 @@ jobs:
           version: latest
           args: release --clean
         env:
-          GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           USERNAME: ${{ github.repository_owner }}
           # Your GoReleaser Pro key, if you are using the 'goreleaser-pro'
           # distribution:
