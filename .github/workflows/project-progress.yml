@@ -29,8 +29,10 @@ jobs:
   move-assigned-card:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
       - uses: alex-page/github-project-automation-plus@v0.8.3
         with:
           project: openim-powerful
           column: In Progress
-          repo-token: ${{ secrets.BOT_GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
