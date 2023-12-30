@@ -27,6 +27,7 @@ permissions:
   statuses: write
 
 env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   # Define Open-IM-Server variables here
   OPEN_IM_SERVER_REMOTE_ORGANIZATION: openim-sigs
   REMOTE_REPOSITORY: cla
