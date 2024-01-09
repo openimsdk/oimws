@@ -33,6 +33,12 @@ type Gate struct {
 	FuncMsgRecv   func(interface{}, Agent)
 }
 
+func NewGate(maxConnNum int, maxMsgLen uint32, processor network.Processor, WSAddr string,
+	HTTPTimeout time.Duration, writerChanLen int) *Gate {
+	return &Gate{MaxConnNum: maxConnNum, MaxMsgLen: maxMsgLen, Processor: processor, WSAddr: WSAddr,
+		HTTPTimeout: HTTPTimeout, PendingWriteNum: writerChanLen}
+}
+
 // SetFun sets the functions for handling new agents, closing agents, and receiving messages.
 func (gate *Gate) SetFun(Fun1 func(Agent), Fun2 func(Agent), Fun3 func(interface{}, Agent)) {
 	gate.FunNewAgent = Fun1

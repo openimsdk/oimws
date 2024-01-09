@@ -35,6 +35,11 @@ func (f *FuncRouter) SetFriendRemark(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.Friend().SetFriendRemark, args...)
 }
 
+// PinFriends pins friends to the top of the friend list.
+func (f *FuncRouter) PinFriends(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Friend().PinFriends, args...)
+}
+
 // DeleteFriend removes a user from the friend list.
 func (f *FuncRouter) DeleteFriend(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.Friend().DeleteFriend, args...)
@@ -73,4 +78,9 @@ func (f *FuncRouter) GetBlackList(operationID string) {
 // RemoveBlack removes a user from the blacklist.
 func (f *FuncRouter) RemoveBlack(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.Friend().RemoveBlack, args...)
+}
+
+// SetFriendsEx sets the friend ex info.
+func (f *FuncRouter) SetFriendsEx(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Friend().SetFriendsEx, args...)
 }
