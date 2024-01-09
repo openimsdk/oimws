@@ -305,3 +305,13 @@ func (f *FuncRouter) SearchLocalMessages(operationID string, args ...any) {
 func (f *FuncRouter) SetMessageLocalEx(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.Conversation().SetMessageLocalEx, args...)
 }
+
+// SearchConversation retrieves a conversation based on search criteria.
+func (f *FuncRouter) SearchConversation(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().SearchConversation, args...)
+}
+
+// SetOneConversationEx sets server extension data for a conversation.
+func (f *FuncRouter) SetOneConversationEx(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.Conversation().SetOneConversationEx, args...)
+}

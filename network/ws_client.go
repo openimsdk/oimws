@@ -13,6 +13,7 @@ const (
 	MaxMsgLen = 1024 * 1024 * 10
 )
 
+// WSClient just for client dial to websocket server
 type WSClient struct {
 	sync.Mutex
 	Addr             string

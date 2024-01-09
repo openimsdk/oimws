@@ -16,6 +16,13 @@ import (
 	log "github.com/xuexihuang/new_log15"
 )
 
+const (
+	MaxMsgLen     = 1024 * 1024 * 10
+	MaxConnNum    = 100 * 100 * 10
+	HTTPTimeout   = 10 * time.Second
+	WriterChanLen = 1000
+)
+
 var Processor = tjson.NewProcessor()
 
 type GateNet struct {
@@ -27,17 +34,8 @@ type GateNet struct {
 // Initsever initializes a new GateNet instance with the given WebSocket port and default configurations.
 func Initsever(wsPort int) *GateNet {
 	gatenet := new(GateNet)
-	gatenet.Gate = &gate.Gate{
-		MaxConnNum:      100,
-		PendingWriteNum: 200,
-		MaxMsgLen:       20000,
-		WSAddr:          ":" + fmt.Sprintf("%d", wsPort),
-		HTTPTimeout:     10 * time.Second,
-		CertFile:        "",
-		KeyFile:         "",
-		LenMsgLen:       2,
-		Processor:       Processor,
-	}
+	gatenet.Gate = gate.NewGate(MaxConnNum, MaxMsgLen,
+		Processor, ":"+fmt.Sprintf("%d", wsPort), HTTPTimeout, WriterChanLen)
 	gatenet.CloseSig = make(chan bool, 1)
 	return gatenet
 }

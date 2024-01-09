@@ -20,6 +20,11 @@ func (f *FuncRouter) SetSelfInfo(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.User().SetSelfInfo, args...)
 }
 
+// SetSelfInfoEx updates the current user's information.
+func (f *FuncRouter) SetSelfInfoEx(operationID string, args ...any) {
+	f.call(operationID, f.userForSDK.User().SetSelfInfoEx, args...)
+}
+
 // SetGlobalRecvMessageOpt sets the global option for receiving messages for the user.
 func (f *FuncRouter) SetGlobalRecvMessageOpt(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.User().SetGlobalRecvMessageOpt, args...)
