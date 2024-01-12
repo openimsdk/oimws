@@ -1,0 +1,14 @@
+name: "First interaction"
+on: [pull_request, issues, issue_comment]
+
+jobs:
+  first-interaction:
+    runs-on: ubuntu-latest
+    steps:
+      - name: "First Interaction"
+        uses: actions/first-interaction@v1.2.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
+        with:
+          issue-message: 'Message for new users opening an issue'
+          pr-message: 'Message for new users opening a Pull Request'

@@ -30,9 +30,10 @@ jobs:
   action:
     runs-on: ubuntu-latest
     steps:
-      - uses: dessant/lock-threads@v4
-        with:
-          github-token: ${{ secrets.BOT_GITHUB_TOKEN }}
+      - name: "Lock Threads"
+        uses: dessant/lock-threads@v4
+        env:
+          GITHUB_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
           issue-inactive-days: '365'
           exclude-issue-created-before: ''
           exclude-issue-created-after: ''
