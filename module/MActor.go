@@ -182,7 +182,7 @@ func (actor *MActorIm) ProcessRecvMsg(msg interface{}) error {
 // doRecvPro processes the message received from the network layer.
 func (actor *MActorIm) doRecvPro(data *common.TWSData) error {
 	log.Info("message come here", "data", data)
-	if data.MsgType == common.MessageBinary {
+	if data.MsgType == common.MessageText {
 		req := &Req{}
 		err := json.Unmarshal(data.Msg, req)
 		if err != nil {
@@ -211,7 +211,7 @@ func (actor *MActorIm) sendHeart() {
 // sendEventResp sends an event response to the WebSocket client.
 func (actor *MActorIm) sendEventResp(res *core_func.EventData) {
 	resb, _ := json.Marshal(res)
-	resSend := &common.TWSData{MsgType: common.MessageBinary, Msg: resb}
+	resSend := &common.TWSData{MsgType: common.MessageText, Msg: resb}
 	actor.a.WriteMsg(resSend)
 }
 
