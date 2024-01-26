@@ -95,6 +95,12 @@ func (c ConversationCallback) OnTotalUnreadMessageCountChanged(totalUnreadCount 
 	c.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), fmt.Sprintf("%d", totalUnreadCount))
 }
 
+// OnConversationUserInputStatusChanged sends a response when the user input status changes,like typing.
+// change: JSON serialized string representing the change in user input status.
+func (c ConversationCallback) OnConversationUserInputStatusChanged(change string) {
+	c.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), change)
+}
+
 type AdvancedMsgCallback struct {
 	respMessage *RespMessage
 }
@@ -135,6 +141,11 @@ func (a AdvancedMsgCallback) OnNewRecvMessageRevoked(messageRevoked string) {
 
 // OnRecvMessageModified handles the modification of a received message.
 func (a AdvancedMsgCallback) OnRecvMessageModified(message string) {
+	a.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), message)
+}
+
+// OnRecvOnlineOnlyMessage handles online-only messages.
+func (a AdvancedMsgCallback) OnRecvOnlineOnlyMessage(message string) {
 	a.respMessage.sendEventSuccessRespWithData(getSelfFuncName(), message)
 }
 

@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	LogoutTips = "socket close"
+	LogoutTips = "js sdk socket close"
 	LogoutName = "Logout"
 )
 
