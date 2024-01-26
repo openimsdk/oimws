@@ -3,10 +3,10 @@ module github.com/openim-sigs/oimws
 go 1.19
 
 require (
-	github.com/OpenIMSDK/tools v0.0.16
+	github.com/OpenIMSDK/tools v0.0.24
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/gorilla/websocket v1.5.0
-	github.com/openimsdk/openim-sdk-core/v3 v3.5.0
+	github.com/openimsdk/openim-sdk-core/v3 v3.5.1-alpha.8
 	github.com/stretchr/testify v1.8.3
 	github.com/xuexihuang/new_log15 v1.0.0
 )
@@ -14,17 +14,14 @@ require (
 require (
 	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/jinzhu/copier v0.3.5 // indirect
-	github.com/klauspost/compress v1.16.5 // indirect
 	github.com/mattn/go-sqlite3 v1.14.12 // indirect
-	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 // indirect
-	github.com/tencentyun/qcloud-cos-sts-sdk v0.0.0-20220106031843-2efeb10ca2f6 // indirect
 	golang.org/x/image v0.14.0 // indirect
 	golang.org/x/net v0.19.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 	google.golang.org/grpc v1.56.2 // indirect
 	gorm.io/driver/sqlite v1.3.6 // indirect
-	nhooyr.io/websocket v1.8.7 // indirect
+	nhooyr.io/websocket v1.8.10 // indirect
 )
 
 require (
@@ -40,6 +37,7 @@ require (
 	github.com/mattn/go-isatty v0.0.19 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
 	github.com/modern-go/reflect2 v1.0.2 // indirect
+	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/petermattis/goid v0.0.0-20230904192822-1876fd5063bc // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/pmezard/go-difflib v1.0.0 // indirect
