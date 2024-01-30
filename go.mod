@@ -3,11 +3,11 @@ module github.com/openim-sigs/oimws
 go 1.19
 
 require (
-	github.com/OpenIMSDK/tools v0.0.24
+	github.com/OpenIMSDK/tools v0.0.31
 	github.com/bwmarrin/snowflake v0.3.0
-	github.com/gorilla/websocket v1.5.0
+	github.com/gorilla/websocket v1.5.1
 	github.com/openimsdk/openim-sdk-core/v3 v3.5.1-alpha.8
-	github.com/stretchr/testify v1.8.3
+	github.com/stretchr/testify v1.8.4
 	github.com/xuexihuang/new_log15 v1.0.0
 )
 
@@ -49,5 +49,5 @@ require (
 	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/natefinch/lumberjack.v2 v2.2.1 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
-	gorm.io/gorm v1.23.8 // indirect
+	gorm.io/gorm v1.25.4 // indirect
 )
