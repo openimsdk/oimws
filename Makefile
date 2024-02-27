@@ -147,8 +147,8 @@ build:
 ## start: Start the service.
 .PHONY: start
 start:
-##  @$(BIN_DIR)/$(BINS)/main
-	@#nohup $(BIN_DIR)/$(BINS)/main >> logs/oimws.log 2>&1 &
+	@mkdir -p logs
+	@nohup $(BIN_DIR)/$(BINS)/main >> logs/oimws.log 2>&1 &
 # ==============================================================================
 
 ## tidy: tidy go.mod
