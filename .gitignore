@@ -24,7 +24,6 @@ db
 components
 out-test
 Dockerfile.cross
-
 ### Makefile ###
 tmp/
 bin/
