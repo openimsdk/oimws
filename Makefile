@@ -147,7 +147,7 @@ build:
 ## start: Start the service.
 .PHONY: start
 start:
-
+	@mkdir -p db
 	@mkdir -p logs
 	@nohup $(BIN_DIR)/$(BINS)/main >> logs/oimws.log 2>&1 &
 # ==============================================================================
