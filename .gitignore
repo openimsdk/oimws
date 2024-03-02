@@ -19,11 +19,11 @@
 
 ### OpenIM developer supplement ###
 logs
+db
 .devcontainer
 components
 out-test
 Dockerfile.cross
-
 ### Makefile ###
 tmp/
 bin/

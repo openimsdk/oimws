@@ -150,6 +150,7 @@ build:
 ## start: Start the service.
 .PHONY: start
 start:
+	@mkdir -p db
 	@mkdir -p logs
 	@nohup $(BIN_DIR)/oimws >> logs/oimws.log 2>&1 &
 
@@ -174,7 +175,6 @@ stop:
 		echo "No service to stop on port $(PORT)."; \
 	fi
 # ==============================================================================
-
 ## tidy: tidy go.mod
 .PHONY: tidy
 tidy:
