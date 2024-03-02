@@ -103,6 +103,9 @@ SPACE :=
 # SPACE: Replace multiple consecutive Spaces with a single space
 SPACE +=
 
+PID = $(shell lsof -ti:10003)
+PORT = 10003
+
 # ==============================================================================
 # Build definition
 
@@ -142,14 +145,34 @@ all: tidy style test build
 ## build: Build binaries by default.
 .PHONY: build
 build:
-	@$(GO) build $(GO_BUILD_FLAGS) -o $(BIN_DIR)/$(BINS) $(BUILDFILE)
+	@$(GO) build $(GO_BUILD_FLAGS) -o $(BIN_DIR)/oimws $(BUILDFILE)
 
 ## start: Start the service.
 .PHONY: start
 start:
-
 	@mkdir -p logs
-	@nohup $(BIN_DIR)/$(BINS)/main >> logs/oimws.log 2>&1 &
+	@nohup $(BIN_DIR)/oimws >> logs/oimws.log 2>&1 &
+
+## check: Check binaries is
+.PHONY: check
+check:
+	@echo "Checking port $(PORT)..."
+	@if [ -z "$(PID)" ]; then \
+		echo "Port $(PORT) is not in use."; \
+	else \
+		echo "Port $(PORT) is in use by PID $(PID)."; \
+		ps -p $(PID) -o start,etime,cmd; \
+	fi
+
+## stop: Stop the service.
+.PHONY: stop
+stop:
+	@echo "Stopping service with PID $(PID)..."
+	@if [ -n "$(PID)" ]; then \
+		kill $(PID); \
+	else \
+		echo "No service to stop on port $(PORT)."; \
+	fi
 # ==============================================================================
 
 ## tidy: tidy go.mod

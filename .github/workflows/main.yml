@@ -24,6 +24,15 @@ jobs:
     
     - name: Build
       run: make build
+
+    - name: Start
+      run: make start
+    
+    - name: Check
+      run: make check
+
+    - name: Stop
+      run: make stop
     
     - name: Lint
       run: make lint
