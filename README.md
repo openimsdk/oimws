@@ -40,6 +40,17 @@ make build
 make start
 ```
 
+**Check oimws status**
+
+```bash
+make check
+```
+
+**Stop oimws Status:**
+
+```bash
+make stop
+```
 
 ### [main](https://github.com/openim-sigs/oimws/tree/main/cmd)
 
