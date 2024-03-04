@@ -47,8 +47,7 @@ github.com/modern-go/reflect2 v1.0.2 h1:xBagoLtFs94CBntxluKeaWgTMpvLxC4ur3nMaC9G
 github.com/modern-go/reflect2 v1.0.2/go.mod h1:yWuevngMOJpCy52FWWMvUC8ws7m/LJsjYzDa0/r8luk=
 github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 h1:zYyBkD/k9seD2A7fsi6Oo2LfFZAehjjQMERAvZLEDnQ=
 github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646/go.mod h1:jpp1/29i3P1S/RLdc7JQKbRpFeM1dOBd8T9ki5s+AY8=
-github.com/openimsdk/openim-sdk-core/v3 v3.5.1-alpha.8 h1:kPjlkSHX7PsBz0Af+Jk1PB4sraup7mbmmwyA3f8uEBI=
-github.com/openimsdk/openim-sdk-core/v3 v3.5.1-alpha.8/go.mod h1:d2aVHT6pSYthQQd+/4JaruHPTLsQV2D+eQisRQkoP3I=
+github.com/openimsdk/openim-sdk-core/v3 v3.5.1-beta.1 h1:e9BCnot/E20srgdAYX6U/vdAt8QEogmlAPkv8T9VViM=
 github.com/openimsdk/openim-sdk-core/v3 v3.5.1-beta.1/go.mod h1:d2aVHT6pSYthQQd+/4JaruHPTLsQV2D+eQisRQkoP3I=
 github.com/patrickmn/go-cache v2.1.0+incompatible h1:HRMgzkcYKYpi3C8ajMPV8OFXaaRUnok+kx1WdO15EQc=
 github.com/patrickmn/go-cache v2.1.0+incompatible/go.mod h1:3Qf8kWWT7OJRJbdiICTKqZju1ZixQ/KpMGzzAfe6+WQ=

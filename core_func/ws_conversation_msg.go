@@ -211,11 +211,6 @@ func (f *FuncRouter) SendMessageNotOss(operationID string, args ...any) {
 	f.messageCall(operationID, f.userForSDK.Conversation().SendMessageNotOss, args...)
 }
 
-// SendMessageByBuffer sends a message using a buffer.
-func (f *FuncRouter) SendMessageByBuffer(operationID string, args ...any) {
-	f.messageCall(operationID, f.userForSDK.Conversation().SendMessageByBuffer, args...)
-}
-
 // FindMessageList retrieves a list of messages based on search criteria.
 func (f *FuncRouter) FindMessageList(operationID string, args ...any) {
 	f.call(operationID, f.userForSDK.Conversation().FindMessageList, args...)
