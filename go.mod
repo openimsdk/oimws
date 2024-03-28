@@ -5,9 +5,9 @@ go 1.19
 require (
 	github.com/OpenIMSDK/tools v0.0.24
 	github.com/bwmarrin/snowflake v0.3.0
-	github.com/gorilla/websocket v1.5.0
-	github.com/openimsdk/openim-sdk-core/v3 v3.5.1-beta.1
-	github.com/stretchr/testify v1.8.3
+	github.com/gorilla/websocket v1.5.1
+	github.com/openimsdk/openim-sdk-core/v3 v3.5.1
+	github.com/stretchr/testify v1.9.0
 	github.com/xuexihuang/new_log15 v1.0.0
 )
 
