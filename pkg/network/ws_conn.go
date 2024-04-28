@@ -2,11 +2,11 @@ package network
 
 import (
 	"errors"
+	"github.com/openim-sigs/oimws/pkg/common"
 	"net"
 	"sync"
 
 	"github.com/gorilla/websocket"
-	"github.com/openim-sigs/oimws/common"
 	log "github.com/xuexihuang/new_log15"
 )
 

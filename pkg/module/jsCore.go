@@ -3,11 +3,10 @@ package module
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/openim-sigs/oimws/pkg/core_func"
 	"reflect"
 
 	"github.com/openimsdk/openim-sdk-core/v3/pkg/utils"
-
-	"github.com/openim-sigs/oimws/core_func"
 )
 
 const (

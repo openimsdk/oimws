@@ -3,16 +3,16 @@ package main
 import (
 	"flag"
 	"fmt"
+	"github.com/openim-sigs/oimws/pkg/core_func"
+	gate2 "github.com/openim-sigs/oimws/pkg/gate"
+	module2 "github.com/openim-sigs/oimws/pkg/module"
+	"github.com/openim-sigs/oimws/pkg/network/tjson"
 	"os"
 	"os/signal"
 	"sync"
 	"syscall"
 	"time"
 
-	"github.com/openim-sigs/oimws/core_func"
-	"github.com/openim-sigs/oimws/gate"
-	"github.com/openim-sigs/oimws/module"
-	"github.com/openim-sigs/oimws/network/tjson"
 	log "github.com/xuexihuang/new_log15"
 )
 
@@ -26,7 +26,7 @@ const (
 var Processor = tjson.NewProcessor()
 
 type GateNet struct {
-	*gate.Gate
+	*gate2.Gate
 	CloseSig chan bool
 	Wg       sync.WaitGroup
 }
@@ -34,14 +34,14 @@ type GateNet struct {
 // Initsever initializes a new GateNet instance with the given WebSocket port and default configurations.
 func Initsever(wsPort int) *GateNet {
 	gatenet := new(GateNet)
-	gatenet.Gate = gate.NewGate(MaxConnNum, MaxMsgLen,
+	gatenet.Gate = gate2.NewGate(MaxConnNum, MaxMsgLen,
 		Processor, ":"+fmt.Sprintf("%d", wsPort), HTTPTimeout, WriterChanLen)
 	gatenet.CloseSig = make(chan bool, 1)
 	return gatenet
 }
 
 // SetMsgFun sets the functions that will be called on new connection, disconnection, and data reception events.
-func (gt *GateNet) SetMsgFun(Fun1 func(gate.Agent), Fun2 func(gate.Agent), Fun3 func(interface{}, gate.Agent)) {
+func (gt *GateNet) SetMsgFun(Fun1 func(gate2.Agent), Fun2 func(gate2.Agent), Fun3 func(interface{}, gate2.Agent)) {
 	gt.Gate.SetFun(Fun1, Fun2, Fun3)
 }
 
@@ -80,13 +80,13 @@ func main() {
 	fmt.Println("Client starting....")
 	log.Info("Client starting....")
 	gatenet := Initsever(*sdkWsPort)
-	gatenet.SetMsgFun(module.NewAgent, module.CloseAgent, module.DataRecv)
+	gatenet.SetMsgFun(module2.NewAgent, module2.CloseAgent, module2.DataRecv)
 	go gatenet.Runloop()
 	/////////////////////////////////////
 	//statusGate := Initsever(90)
 	//gatenet.SetMsgFun(module.NewStatusAgent, module.CloseStatusAgent, module.DataRecvStatus)
 	//go gatenet.Runloop()
-	module.ProgressStartTime = time.Now().Unix()
+	module2.ProgressStartTime = time.Now().Unix()
 	///////////////////////////////////////////
 	c := make(chan os.Signal, 1)
 	signal.Notify(c, os.Interrupt, os.Kill, syscall.SIGQUIT, syscall.SIGTERM)

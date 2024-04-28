@@ -3,8 +3,8 @@ package module
 import (
 	"encoding/json"
 	"errors"
-	"github.com/openim-sigs/oimws/common"
-	"github.com/openim-sigs/oimws/gate"
+	"github.com/openim-sigs/oimws/pkg/common"
+	"github.com/openim-sigs/oimws/pkg/gate"
 	log "github.com/xuexihuang/new_log15"
 	"net/url"
 	"sync"

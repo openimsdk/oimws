@@ -1,12 +1,12 @@
 package gate
 
 import (
+	common2 "github.com/openim-sigs/oimws/pkg/common"
+	network2 "github.com/openim-sigs/oimws/pkg/network"
 	"net"
 	"reflect"
 	"time"
 
-	"github.com/openim-sigs/oimws/common"
-	"github.com/openim-sigs/oimws/network"
 	log "github.com/xuexihuang/new_log15"
 )
 
@@ -14,7 +14,7 @@ type Gate struct {
 	MaxConnNum      int
 	PendingWriteNum int
 	MaxMsgLen       uint32
-	Processor       network.Processor
+	Processor       network2.Processor
 	//AgentChanRPC    *chanrpc.Server
 
 	// websocket
@@ -33,7 +33,7 @@ type Gate struct {
 	FuncMsgRecv   func(interface{}, Agent)
 }
 
-func NewGate(maxConnNum int, maxMsgLen uint32, processor network.Processor, WSAddr string,
+func NewGate(maxConnNum int, maxMsgLen uint32, processor network2.Processor, WSAddr string,
 	HTTPTimeout time.Duration, writerChanLen int) *Gate {
 	return &Gate{MaxConnNum: maxConnNum, MaxMsgLen: maxMsgLen, Processor: processor, WSAddr: WSAddr,
 		HTTPTimeout: HTTPTimeout, PendingWriteNum: writerChanLen}
@@ -48,9 +48,9 @@ func (gate *Gate) SetFun(Fun1 func(Agent), Fun2 func(Agent), Fun3 func(interface
 
 // Run starts the gate service and listens for incoming connections.
 func (gate *Gate) Run(closeSig chan bool) {
-	var wsServer *network.WSServer
+	var wsServer *network2.WSServer
 	if gate.WSAddr != "" {
-		wsServer = new(network.WSServer)
+		wsServer = new(network2.WSServer)
 		wsServer.Addr = gate.WSAddr
 		wsServer.MaxConnNum = gate.MaxConnNum
 		wsServer.PendingWriteNum = gate.PendingWriteNum
@@ -58,13 +58,13 @@ func (gate *Gate) Run(closeSig chan bool) {
 		wsServer.HTTPTimeout = gate.HTTPTimeout
 		wsServer.CertFile = gate.CertFile
 		wsServer.KeyFile = gate.KeyFile
-		wsServer.NewAgent = func(conn *network.WSConn) network.Agent {
+		wsServer.NewAgent = func(conn *network2.WSConn) network2.Agent {
 			a := &agent{conn: conn, gate: gate}
 			/*if gate.AgentChanRPC != nil {
 				gate.AgentChanRPC.Go("NewAgent", a)
 			}*/
 			/////////////////////////////////////////////////////
-			tagent := common.TAgentUserData{SessionID: conn.SessionId, AppString: conn.AppURL, CookieVal: conn.CookieVal}
+			tagent := common2.TAgentUserData{SessionID: conn.SessionId, AppString: conn.AppURL, CookieVal: conn.CookieVal}
 			a.SetUserData(&tagent)
 			gate.FunNewAgent(a)
 			return a
@@ -108,14 +108,14 @@ func (gate *Gate) Run(closeSig chan bool) {
 func (gate *Gate) OnDestroy() {}
 
 type agent struct {
-	conn     network.Conn
+	conn     network2.Conn
 	gate     *Gate
 	userData interface{}
 }
 
 // Run processes incoming messages in a loop.
 func (a *agent) Run() {
-	defer common.TryRecoverAndDebugPrint()
+	defer common2.TryRecoverAndDebugPrint()
 	for {
 		nType, data, err := a.conn.ReadMsg()
 		if err != nil {

@@ -3,12 +3,12 @@ package network
 import (
 	"crypto/tls"
 	"fmt"
+	"github.com/openim-sigs/oimws/pkg/common"
 	"net"
 	"net/http"
 	"sync"
 	"time"
 
-	"github.com/openim-sigs/oimws/common"
 	log "github.com/xuexihuang/new_log15"
 
 	"github.com/gorilla/websocket"
