@@ -8,11 +8,6 @@ import (
 )
 
 func main() {
-	// os.Args [/Users/chao/Desktop/withchao/oimws/_output/bin/platforms/darwin/arm64/openim-sdk -i 0 -c /Users/chao/Desktop/withchao/oimws/config/]
-	fmt.Println("os.Args", os.Args)
-	if len(os.Args) == 1 {
-		os.Args = []string{os.Args[0], "-i", "0", "-c", "/Users/chao/Desktop/withchao/oimws/config/"}
-	}
 	if err := cmd.NewSdkCmd().Exec(); err != nil {
 		ExitWithError(err)
 	}
