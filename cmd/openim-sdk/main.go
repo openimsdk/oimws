@@ -1,12 +1,26 @@
 package main
 
 import (
+	"fmt"
 	"github.com/openim-sigs/oimws/pkg/common/cmd"
-	"github.com/openimsdk/tools/system/program"
+	"os"
+	"path/filepath"
 )
 
 func main() {
-	if err := cmd.NewSdkCmd().Exec(); err != nil {
-		program.ExitWithError(err)
+	// os.Args [/Users/chao/Desktop/withchao/oimws/_output/bin/platforms/darwin/arm64/openim-sdk -i 0 -c /Users/chao/Desktop/withchao/oimws/config/]
+	fmt.Println("os.Args", os.Args)
+	if len(os.Args) == 1 {
+		os.Args = []string{os.Args[0], "-i", "0", "-c", "/Users/chao/Desktop/withchao/oimws/config/"}
 	}
+	if err := cmd.NewSdkCmd().Exec(); err != nil {
+		ExitWithError(err)
+	}
+}
+
+// TODO
+func ExitWithError(err error) {
+	progName := filepath.Base(os.Args[0])
+	fmt.Fprintf(os.Stderr, "%s exit -1: %+v\n", progName, err)
+	os.Exit(-1)
 }

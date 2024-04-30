@@ -74,10 +74,6 @@ github.com/openimsdk/gomake v0.0.11 h1:jJ9286zKFfBeARkmfqMEcUYg9lJ+Cj9lylxP8W9uC
 github.com/openimsdk/gomake v0.0.11/go.mod h1:PndCozNc2IsQIciyn9mvEblYWZwJmAI+06z94EY+csI=
 github.com/openimsdk/openim-sdk-core/v3 v3.5.1 h1:lvC8TlouT9zFxjoBeH/S4YCkwbQ5IgSnNRO9NJ9H5v8=
 github.com/openimsdk/openim-sdk-core/v3 v3.5.1/go.mod h1:d2aVHT6pSYthQQd+/4JaruHPTLsQV2D+eQisRQkoP3I=
-github.com/openimsdk/protocol v0.0.65 h1:SPT9qyUsFRTTKSKb/FjpS+xr6sxz/Kbnu+su1bxYagc=
-github.com/openimsdk/protocol v0.0.65/go.mod h1:OZQA9FR55lseYoN2Ql1XAHYKHJGu7OMNkUbuekrKCM8=
-github.com/openimsdk/tools v0.0.49-alpha.2 h1:8IfV6o2ySU7C54sh/MG7ctEp1h3lSNe03OCUDWSk5Ws=
-github.com/openimsdk/tools v0.0.49-alpha.2/go.mod h1:P4oGP1Pd+d4ctbLD5U/XQTgl8yu8Hd3skx640Fr69ko=
 github.com/patrickmn/go-cache v2.1.0+incompatible h1:HRMgzkcYKYpi3C8ajMPV8OFXaaRUnok+kx1WdO15EQc=
 github.com/patrickmn/go-cache v2.1.0+incompatible/go.mod h1:3Qf8kWWT7OJRJbdiICTKqZju1ZixQ/KpMGzzAfe6+WQ=
 github.com/pelletier/go-toml/v2 v2.1.0 h1:FnwAJ4oYMvbT/34k9zzHuZNrhlz48GB3/s6at6/MHO4=

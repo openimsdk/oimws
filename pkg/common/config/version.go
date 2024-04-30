@@ -12,34 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package cmd
+package config
 
-import (
-	"strings"
-)
+import _ "embed"
 
-var (
-	FileName          = "config.yml"
-	LogConfigFileName = "log.yml"
-)
-
-var ConfigEnvPrefixMap map[string]string
-
-func init() {
-	ConfigEnvPrefixMap = make(map[string]string)
-	fileNames := []string{
-		FileName,
-		LogConfigFileName,
-	}
-	for _, fileName := range fileNames {
-		envKey := strings.TrimSuffix(strings.TrimSuffix(fileName, ".yml"), ".yaml")
-		envKey = "IMENV_" + envKey
-		envKey = strings.ToUpper(strings.ReplaceAll(envKey, "-", "_"))
-		ConfigEnvPrefixMap[fileName] = envKey
-	}
-}
-
-const (
-	FlagConf          = "config_folder_path"
-	FlagTransferIndex = "index"
-)
+//go:embed version
+var Version string

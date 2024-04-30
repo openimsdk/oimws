@@ -18,8 +18,9 @@ import (
 	"context"
 	"github.com/openim-sigs/oimws/internal/sdk"
 	"github.com/openim-sigs/oimws/pkg/common/config"
-	"github.com/openimsdk/tools/system/program"
 	"github.com/spf13/cobra"
+	"os"
+	"strings"
 )
 
 type SdkCmd struct {
@@ -34,7 +35,15 @@ func NewSdkCmd() *SdkCmd {
 	ret.configMap = map[string]any{
 		FileName: &ret.sdkConfig.SdkConfig,
 	}
-	ret.RootCmd = NewRootCmd(program.GetProcessName(), WithConfigMap(ret.configMap))
+	// TODO program.GetProcessName()
+	var processName string
+	if args := os.Args; len(args) > 0 {
+		segments := strings.Split(args[0], "/")
+		processName = segments[len(segments)-1]
+	}
+	//TODO
+	ret.RootCmd = NewRootCmd(processName, WithConfigMap(ret.configMap))
+	//ret.RootCmd = NewRootCmd(program.GetProcessName(), WithConfigMap(ret.configMap))
 	ret.ctx = context.WithValue(context.Background(), "version", config.Version)
 	ret.Command.RunE = func(cmd *cobra.Command, args []string) error {
 		return ret.runE()

@@ -19,8 +19,8 @@ import (
 	"github.com/openim-sigs/oimws/pkg/common/config"
 	"path/filepath"
 
-	"github.com/openimsdk/tools/errs"
-	"github.com/openimsdk/tools/log"
+	"github.com/OpenIMSDK/tools/errs"
+	"github.com/OpenIMSDK/tools/log"
 	"github.com/spf13/cobra"
 )
 
@@ -86,9 +86,9 @@ func (r *RootCmd) persistentPreRun(cmd *cobra.Command, opts ...func(*CmdOpts)) e
 	if err := r.initializeConfiguration(cmd, cmdOpts); err != nil {
 		return err
 	}
-
+	//TODO: ERRS
 	if err := r.initializeLogger(cmdOpts); err != nil {
-		return errs.WrapMsg(err, "failed to initialize logger")
+		return errs.Wrap(err, "failed to initialize logger")
 	}
 
 	return nil
@@ -123,7 +123,8 @@ func (r *RootCmd) applyOptions(opts ...func(*CmdOpts)) *CmdOpts {
 }
 
 func (r *RootCmd) initializeLogger(cmdOpts *CmdOpts) error {
-	err := log.InitFromConfig(
+	//TODO log
+	return log.InitFromConfig(
 		cmdOpts.loggerPrefixName,
 		r.processName,
 		r.log.RemainLogLevel,
@@ -132,13 +133,8 @@ func (r *RootCmd) initializeLogger(cmdOpts *CmdOpts) error {
 		r.log.StorageLocation,
 		r.log.RemainRotationCount,
 		r.log.RotationTime,
-		config.Version,
+		//config.Version,
 	)
-	if err != nil {
-		return errs.Wrap(err)
-	}
-	return errs.Wrap(log.InitConsoleLogger(r.processName, r.log.RemainLogLevel, r.log.IsJson, config.Version))
-
 }
 
 func defaultCmdOpts() *CmdOpts {
