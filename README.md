@@ -31,25 +31,25 @@ cd oimws
 **Build oimws**
 
 ```bash
-make build
+mage
 ```
 
 **Start oimws**
 
 ```bash
-make start
+mage start
 ```
 
 **Check oimws status**
 
 ```bash
-make check
+mage check
 ```
 
 **Stop oimws Status:**
 
 ```bash
-make stop
+mage stop
 ```
 
 ### [main](https://github.com/openim-sigs/oimws/tree/main/cmd)
