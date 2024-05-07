@@ -2,14 +2,12 @@ module github.com/openim-sigs/oimws
 
 go 1.21.2
 
-toolchain go1.21.9
-
 require (
 	github.com/OpenIMSDK/tools v0.0.24
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/gorilla/websocket v1.5.1
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/openimsdk/gomake v0.0.11
+	github.com/openimsdk/gomake v0.0.12
 	github.com/openimsdk/openim-sdk-core/v3 v3.5.1
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.18.2
