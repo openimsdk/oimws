@@ -18,6 +18,9 @@ func Start(ctx context.Context, index int, conf *Config, logConf *config.Log) er
 	if err != nil {
 		return err
 	}
+	if err := os.MkdirAll(conf.SdkConfig.DbDir, os.ModePerm); err != nil && !os.IsExist(err) {
+		return err
+	}
 	core_func.Config.WsAddr = conf.SdkConfig.OpenimWs
 	core_func.Config.ApiAddr = conf.SdkConfig.OpenimApi
 	core_func.Config.DataDir = conf.SdkConfig.DbDir
