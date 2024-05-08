@@ -1,7 +1,7 @@
 package tjson
 
 import (
-	"github.com/openim-sigs/oimws/common"
+	"github.com/openim-sigs/oimws/pkg/common"
 )
 
 type Login struct {

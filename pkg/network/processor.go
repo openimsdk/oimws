@@ -1,6 +1,8 @@
 package network
 
-import "github.com/openim-sigs/oimws/common"
+import (
+	"github.com/openim-sigs/oimws/pkg/common"
+)
 
 type Processor interface {
 	// must goroutine safe

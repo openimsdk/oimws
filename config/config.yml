@@ -1,0 +1,4 @@
+openimApi: "http://127.0.0.1:10002"
+openimWs: "ws://127.0.0.1:10001"
+sdkWsPort: [ 10003 ]
+dbDir: "../../../../db/"

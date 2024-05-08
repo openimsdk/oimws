@@ -1,0 +1,4 @@
+serviceBinaries:
+  openim-sdk: 1
+toolBinaries:
+maxFileDescriptors: 10000

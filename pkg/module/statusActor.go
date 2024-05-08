@@ -2,8 +2,8 @@ package module
 
 import (
 	"encoding/json"
-	"github.com/openim-sigs/oimws/common"
-	"github.com/openim-sigs/oimws/gate"
+	common2 "github.com/openim-sigs/oimws/pkg/common"
+	"github.com/openim-sigs/oimws/pkg/gate"
 	log "github.com/xuexihuang/new_log15"
 	"sync"
 	"time"
@@ -29,7 +29,7 @@ func NewStatusActor(a gate.Agent, sessionId string, appParam *ParamStru) (MActor
 }
 func (actor *StatusActorIm) run() {
 	actor.wg.Add(1)
-	defer common.TryRecoverAndDebugPrint()
+	defer common2.TryRecoverAndDebugPrint()
 	defer actor.wg.Done()
 	for {
 		select {
@@ -45,7 +45,7 @@ func (actor *StatusActorIm) run() {
 			if actor.isclosing == true {
 				continue
 			}
-			data := recvData.(*common.TWSData)
+			data := recvData.(*common2.TWSData)
 			_ = actor.doRecvPro(data)
 		}
 	}
@@ -65,12 +65,12 @@ func (actor *StatusActorIm) ReleaseRes() {
 }
 func (actor *StatusActorIm) sendHeart() {
 	//heart := []byte("ping")
-	resSend := &common.TWSData{MsgType: common.PingMessage, Msg: nil}
+	resSend := &common2.TWSData{MsgType: common2.PingMessage, Msg: nil}
 	actor.a.WriteMsg(resSend)
 }
-func (actor *StatusActorIm) doRecvPro(data *common.TWSData) error {
+func (actor *StatusActorIm) doRecvPro(data *common2.TWSData) error {
 	log.Info("message come here", "data.type", data.MsgType)
-	if data.MsgType == common.MessageText {
+	if data.MsgType == common2.MessageText {
 		req := &RequestSt{}
 		err := json.Unmarshal(data.Msg, req)
 		if err != nil {
@@ -81,7 +81,7 @@ func (actor *StatusActorIm) doRecvPro(data *common.TWSData) error {
 		////////////////////////////////////////////////
 		res := ResponseSt{Type: RESP_OP_TYPE, Success: true, UserId: genGroupUserIds(), Duration: time.Now().Unix() - ProgressStartTime}
 		resb, _ := json.Marshal(res)
-		resSend := &common.TWSData{MsgType: common.MessageText, Msg: resb}
+		resSend := &common2.TWSData{MsgType: common2.MessageText, Msg: resb}
 		actor.a.WriteMsg(resSend)
 	}
 	return nil

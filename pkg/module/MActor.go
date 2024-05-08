@@ -4,16 +4,15 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	common2 "github.com/openim-sigs/oimws/pkg/common"
+	"github.com/openim-sigs/oimws/pkg/core_func"
+	"github.com/openim-sigs/oimws/pkg/gate"
 	"net/url"
 	"runtime"
 	"sync"
 	"sync/atomic"
 	"time"
 
-	"github.com/openim-sigs/oimws/core_func"
-
-	"github.com/openim-sigs/oimws/common"
-	"github.com/openim-sigs/oimws/gate"
 	log "github.com/xuexihuang/new_log15"
 )
 
@@ -99,7 +98,7 @@ func NewMActor(a gate.Agent, sessionId string, appParam *ParamStru) (MActor, err
 // run contains the main loop for the actor, handling various operations.
 func (actor *MActorIm) run() {
 	actor.wg.Add(1)
-	defer common.TryRecoverAndDebugPrint()
+	defer common2.TryRecoverAndDebugPrint()
 	defer actor.wg.Done()
 	for {
 		select {
@@ -128,7 +127,7 @@ func (actor *MActorIm) run() {
 			if actor.isclosing == true {
 				continue
 			}
-			data := recvData.(*common.TWSData)
+			data := recvData.(*common2.TWSData)
 			_ = actor.doRecvPro(data)
 		case resp := <-actor.mJsCore.RecvMsg():
 			actor.sendEventResp(resp)
@@ -180,9 +179,9 @@ func (actor *MActorIm) ProcessRecvMsg(msg interface{}) error {
 }
 
 // doRecvPro processes the message received from the network layer.
-func (actor *MActorIm) doRecvPro(data *common.TWSData) error {
+func (actor *MActorIm) doRecvPro(data *common2.TWSData) error {
 	log.Info("message come here", "data", data)
-	if data.MsgType == common.MessageText {
+	if data.MsgType == common2.MessageText {
 		req := &Req{}
 		err := json.Unmarshal(data.Msg, req)
 		if err != nil {
@@ -204,18 +203,18 @@ func (actor *MActorIm) doRecvPro(data *common.TWSData) error {
 // sendResp sends a response message to the WebSocket client.
 func (actor *MActorIm) sendHeart() {
 	//heart := []byte("ping")
-	resSend := &common.TWSData{MsgType: common.PingMessage, Msg: nil}
+	resSend := &common2.TWSData{MsgType: common2.PingMessage, Msg: nil}
 	actor.a.WriteMsg(resSend)
 }
 
 // sendEventResp sends an event response to the WebSocket client.
 func (actor *MActorIm) sendEventResp(res *core_func.EventData) {
 	resb, _ := json.Marshal(res)
-	resSend := &common.TWSData{MsgType: common.MessageText, Msg: resb}
+	resSend := &common2.TWSData{MsgType: common2.MessageText, Msg: resb}
 	actor.a.WriteMsg(resSend)
 }
 
 func (actor *MActorIm) sendClosingResp() {
-	resSend := &common.TWSData{MsgType: common.CloseMessage, Msg: nil}
+	resSend := &common2.TWSData{MsgType: common2.CloseMessage, Msg: nil}
 	actor.a.WriteMsg(resSend)
 }
