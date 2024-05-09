@@ -1,4 +1,4 @@
-name: Go Build
+name: Mage Build Test
 
 on:
   push:
@@ -19,6 +19,7 @@ on:
       - "**.md"
       - "CONTRIBUTING.md"
       - ".github/**"
+  workflow_dispatch:
 
 jobs:
   build:
