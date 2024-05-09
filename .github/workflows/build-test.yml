@@ -34,6 +34,10 @@ jobs:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v4
 
+      - name: init
+        run: sudo bash bootstrap.sh
+        timeout-minutes: 20
+
       - name: Build, Start, Check Services and Print Logs for Linux
         run: |
           sudo mage
