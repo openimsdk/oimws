@@ -27,7 +27,7 @@ jobs:
 
       - name: Link Checker
         id: lychee
-        uses: lycheeverse/lychee-action@v1.8.0
+        uses: lycheeverse/lychee-action@v1.9.3
         with:
             # For parameter description, see https://github.com/lycheeverse/lychee#commandline-parameters
             # Actions Link address -> https://github.com/lycheeverse/lychee-action
@@ -41,11 +41,11 @@ jobs:
             # ./*.md all markdown files in the root directory
           args: --verbose  -E -i --no-progress --exclude-path './CHANGELOG' './**/*.md'
         env:
-          GITHUB_TOKEN: ${{secrets.GH_PAT}}
+          GITHUB_TOKEN: ${{secrets.BOT_GITHUB_TOKEN}}
 
       - name: Create Issue From File
         if: env.lychee_exit_code != 0
-        uses: peter-evans/create-issue-from-file@v4
+        uses: peter-evans/create-issue-from-file@v5
         with:
           title: Bug reports for links in OpenIM docs
           content-filepath: ./lychee/out.md
