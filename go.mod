@@ -7,7 +7,7 @@ require (
 	github.com/bwmarrin/snowflake v0.3.0
 	github.com/gorilla/websocket v1.5.1
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/openimsdk/gomake v0.0.12
+	github.com/openimsdk/gomake v0.0.13
 	github.com/openimsdk/openim-sdk-core/v3 v3.5.1
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.18.2
