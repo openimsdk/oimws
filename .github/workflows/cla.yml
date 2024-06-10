@@ -60,3 +60,4 @@ jobs:
           custom-allsigned-prcomment: '🤖 All Contributors have signed the [${{ github.event.repository.name }} CLA](https://github.com/openim-sigs/cla/blob/main/README.md).<br> The signed information is recorded [🤖here](https://github.com/openim-sigs/cla/tree/main/signatures/${{ github.event.repository.name }}/cla.json)'
         #   lock-pullrequest-aftermerge: false - if you don't want this bot to automatically lock the pull request after merging (default - true)
         #   use-dco-flag: true - If you are using DCO instead of CLA
+          github-token: ${{ secrets.GITHUB_TOKEN }}
