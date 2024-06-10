@@ -1,0 +1,18 @@
+# Since the file name is unknown, we assume it's "lock-threads.yml" for the purpose of this task.
+
+name: Lock Threads
+
+on:
+  schedule:
+    - cron: '0 0 * * *'
+
+jobs:
+  lock:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lock Threads
+        uses: dessant/lock-threads@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          issue-lock-inactive-days: '30'
+          pr-lock-inactive-days: '30'
