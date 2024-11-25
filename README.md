@@ -1,3 +1,7 @@
+# ⚠️ Project No Longer Maintained
+This project is no longer maintained and may contain unpatched vulnerabilities or compatibility issues with modern environments. Feel free to fork and modify the project if needed.
+If you need to use jssdk in the new version (v3.8.2+), you can introduce [@openim/client-sdk](https://www.npmjs.com/package/@openim/client-sdk) to directly communicate with IM Server without the need to deploy this project.
+
 # OIMWS - OpenIM WebSocket Service 😎
 
 ![Build Status](https://github.com/openim-sigs/oimws/actions/workflows/test.yml/badge.svg)
